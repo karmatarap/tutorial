@@ -1,0 +1,10 @@
+"0","#\\actelion.com\POOL\GLOBAL\BIOSTATISTICS\Clinical Projects\ACT-064992_Macitentan\ACT-064992_in_PAH_adult\Regulatory Authorities\FDC Maci and Tada\US (FDA)\OPUS_FDC\ADaM_Data"
+"0","adsl <- read.sas7bdat(""\\\\actelion.com\\POOL\\GLOBAL\\BIOSTATISTICS\\Clinical Projects\\ACT-064992_Macitentan\\ACT-064992_in_PAH_adult\\Regulatory Authorities\\FDC Maci and Tada\\US (FDA)\\OPUS_FDC\\ADaM_Data\\adsl.sas7bdat"")"
+"0","install.packages(""sas7bdat"")"
+"1","Warning in "
+"1","install.packages"
+"1"," :
+  "
+"1","package ‘sas7bdat’ is in use and will not be installed"
+"1","
+"
