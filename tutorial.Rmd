@@ -12,41 +12,68 @@ knitr::opts_chunk$set(echo = TRUE)
 
 
 # Goals of this workshop
-- 
-- JIT learning (Just enough information to do something). There will be a lot of unanswered questions, but you should have the tools to find out how to answer them.
-- Quick tour of the development environment
-- What are packages and how to install them
-- Clinical exploration
+
++ JIT learning (Just enough information to do something). There will be a lot of unanswered questions, but you should have the tools to find out how to answer them.
++ Knowledge of how to setup the development environment
++ How to share your work with others through markdown and HTML documents
++ Practice in Dplyr and ggplot: Enough to create summaries and graphs
++ Creation of shiny applications to make your analysis dynamic
+
+*Tip: When in doubt, always experiment
 
 
-Tip: Always experiment
+# Resources
+
+Please make sure you have a copy of the following cheatsheets handy:
++ Rstudio https://github.com/rstudio/cheatsheets/raw/master/rstudio-ide.pdf
++ RMarkdown https://github.com/rstudio/cheatsheets/raw/master/rmarkdown-2.0.pdf
++ dplyr https://github.com/rstudio/cheatsheets/raw/master/data-transformation.pdf
++ ggplot https://github.com/rstudio/cheatsheets/raw/master/data-visualization-2.1.pdf
++ shiny https://github.com/rstudio/cheatsheets/raw/master/shiny.pdf
+ 
+Additional cheatsheets can be found here: https://www.rstudio.com/resources/cheatsheets/
+
 
 # RStudio
 
-The integrated development environment (IDE) we will use is called RStudio.
-We 
+There are 4 main windows:
++ Code editor: Here you can edit R programs
++ Environment window: This is like the work folder in SAS, a collection of data in memory
++ Console window: Interactive code area - perfect for writing R code that you want evaluated immediately. What happens when you submit `1+1` in this window?
++ Files window: Windows explorer of files and folders
 
 
 
-Start by creating a new R project. 
-[File][New Project][New Directory]
 
+# Markdown file
 
+Markdown files are what we will use for this tutorial. Normal R files have extension .R, markdown files have the extension .Rmd.
+Rmd files are a record of your research, it contains the code you used and a narration to allow for reproducible research. Additionally as we will see later, you can `knit` it into various output formats (html/word/pdf...).
 
-getwd()
+Code blocks are inserted via [Code][Insert chunk], the Insert button above Or alternatively by `Ctrl+Alt+i`.
 
+ 
 
-Create R markdown file 
-- Embeds executable code into the report
-- Great way to share analysis
-- knit
+### warmup 1 
 
+A simple warmup question.
 
-Packages
-- Imagine if could download a bunch of macros bundled together
-- People all over the world could write macros and share with everyone else
-- Peer review would ensure the macros work as advertised
-- Packages hosted on CRAN and must pass tests to be accepted
+You can find help on functions using the help function. For example, to find help on the `max` function, you can type `help(max)` in the console window.
+
+1) Insert a code block
+2) What is the description of the `min` funtion? Paste the result as a comment in the block you created. Comments in R are preceded by #. Place `#` before the description to comment it out.
+ 
+**Insert code block below here** 
+ 
+ 
+ 
+# Packages
+
++ Imagine if could download a bunch of macros bundled together
++ People all over the world could write macros and share with everyone else
++ Peer review would ensure the macros work as advertised
++ Packages hosted on CRAN and must pass tests to be accepted
+
 
 Let's install our first package to read SAS datasets. 
 
@@ -58,11 +85,13 @@ Library function loads the package into memory - Check the packages tab of RStud
 library(sas7bdat)
 ```
 
-Read in SAS dataset
+
+## Read in SAS dataset
 
 We will read the ADSL dataset from the OPUS registry.
 
-Gotcha 1: Our first gotcha: Backslashes in R have to be escaped, this means we have to add extra backslash for every backslash to out path.
+Gotcha 1: Our first gotcha: Backslashes in R have to be escaped, this means we have to add extra backslash for every backslash to out path. Alternatively, use forward slashes.
+
 
 ```{r}
 #\\actelion.com\POOL\GLOBAL\BIOSTATISTICS\Clinical Projects\ACT-064992_Macitentan\ACT-064992_in_PAH_adult\Regulatory Authorities\FDC Maci and Tada\US (FDA)\OPUS_FDC\ADaM_Data
@@ -71,37 +100,44 @@ Gotcha 1: Our first gotcha: Backslashes in R have to be escaped, this means we h
 adsl <- read.sas7bdat("\\\\actelion.com\\POOL\\GLOBAL\\BIOSTATISTICS\\Clinical Projects\\ACT-064992_Macitentan\\ACT-064992_in_PAH_adult\\Regulatory Authorities\\FDC Maci and Tada\\US (FDA)\\OPUS_FDC\\ADaM_Data\\adsl.sas7bdat")
 ```
 
-
-Comments in R are preceded by #
-
-The "<-" is an assignment. Assignments can also be done with "=", however convention dictates we use the former.
+The "<-" is an assignment operator. Assignments can also be done with "=", however convention dictates we use the former.
 
 
-The dataframe object
+Tip: Use best practices by following the Tidyverse style guide: https://style.tidyverse.org/
 
-- dataframes are the SAS equivelent of a dataset.
-- Take a look at the adsl dataframe in the environment window
 
-Inspecting the dataframe
-- Number of rows : "nrow"
-- Number of columns : "ncol"
+# The dataframe object
 
++ dataframes are the SAS equivelent of a dataset.
++ Take a look at the adsl dataframe in the environment window
+
+
+Inspecting the dataframe programmatically
++ Number of rows : "nrow function"
++ Number of columns : "ncol function"
+
+
+Number of columns
 ```{r}
 ncol(adsl)
 ```
 
+
+Number of rows
 ```{r}
 nrow(adsl)
 ```
 
-### Introducing the pipe operator
 
-">" is the pipe operator. Similar to "|" in unix. Basically it means you don't have to pass the name of the previous dataset between operations.
+
+## Introducing the pipe operator
+
+"%>%" is the pipe operator. Similar to "|" in unix. Basically it means you don't have to pass the name of the previous dataset between operations.
 
 
 Equivalent to using "data" and "_last_" in SAS:
 
-```{r, engine="sas", engine.path="C:/Program Files/SASHome/SASFoundation/9.4/sas.exe"}
+```{r, engine="sas", engine.path="C:/Program Files/SASHome/SASFoundation/9.4/sas.exe" eval=FALSE}
 data;   
   set sashelp.class;
   run;
@@ -129,23 +165,20 @@ adsl1 <- filter(adsl, COHORT != "" & ITTFL == "Y")
 
 Gotcha 2: R is case sensitive, variables are case sensitive.
 
-Filter function:
-- same as a where clause
 
-
-Equality operators in R:
+## Equality operators in R:
   - In SAS '=' is used for both equality and assignment
   eg. x = 4 = 4;
 
     
-```{r, engine="sas", engine.path="C:/Program Files/SASHome/SASFoundation/9.4/sas.exe"}
+```{r, engine="sas", engine.path="C:/Program Files/SASHome/SASFoundation/9.4/sas.exe" eval=FALSE}
   data _null_ ;
     x = 4 = 4 ;
     put x;
     run;
 ```
 
-  is valid SAS syntax, the first '=' is assignment, the second is to assess equality.
+is valid SAS syntax, the first '=' is assignment, the second is to assess equality.
   - In R, assignment can be '=' or '<=' and equality is done by:
     - "==" (is equivelant)
     - "!=" (not equivelant)
@@ -157,89 +190,215 @@ And/Or operators:
 - | = "or"
 
 
-Question 1:
-  How many rows were deleted from ADSL using the filter criteria above?
-Hint: use nrow and ncol functions
-Remember, insert a code chunk from [code] above, or use the shortcut Ctrl+Alt+i
+### Warmup 2:
 
+How many rows were deleted from ADSL using the filter criteria above?
+Hint: use nrow and ncol functions
 
 ```{r}
 nrow(adsl)-nrow(adsl1)
 ```
   
-Our dataset is large so let's keep only a few variables:
-This is done using the dplyr select function.
+ 
+# DPLYR Package 
+
+We Will start exploring dplyr package and the pipe operator %>%. Use the dplyr cheatsheet to answer these questions.
+
+The Dplyr package has been built to simplify and make R more easy to use. It's based with 5 different verbs which allow us to manipulate the data:
+
+* select(), which returns a subset of the columns (like keep statement or SQL select statement),
+* filter(), that is able to return a subset of the rows (like where statement),
+* arrange(), that reorders the rows according to single or multiple variables (order),
+* mutate(), used to add columns from existing data,
+* summarize(), which reduces each group to a single row by calculating aggregate measures.
+
+
+1. select() Function
+The first argument to the select function is the dataframe, the remaining arguments are the names of the variables to keep.
+
+  + Create a new dataframe called `adls1` from `adsl` that contains: SUBJID, AGE, SEX, SMWDBL, WHOFCBL, HEIGHTBL, WEIGHTBL, TRTSDT and TRTEDT 
+  + Use the head function to print a small subset of `adsl1`.
+  HINT: Use the help function we saw previously to see how to use `head`.
 
 
 ```{r}
-adsl2 <- adsl1 %>% select(c("SUBJID","SITEID","AGE","SEX","COHORT"))
-
-#Print column names
-colnames(adsl2)
-#adsl2 %>% colnames()
+adsl1 <- select(adsl, SUBJID, AGE, SEX, SMWDBL, WHOFCBL, HEIGHTBL, WEIGHTBL, TRTSDT, TRTEDT)
+head(adsl1)
 ```
 
-Dplyr section
+From the answer above, we should be able to see a lot of `NaN`s. NaN stands for 'Not a Number', a special type of missing number. 
 
 
-
-
-
-
-
-
-Our first plot, 
-boxplot of age
-We access variables via the $ symbol, use tabs in RStudio to select the variable
+2. mutate() Function
+  + Create a new data frame called adsl2, which is adsl1 and an additional column: DaysBet, the number of days between TRTEDT and TRTSDT.
+  + Create a new data frame called adsl3, which is adsl2 and an additionnal column BMIBL, BMI of each subject at baseline. 
+  + Create adsl4, which combines the previous two steps into one mutate function call.
 
 ```{r}
-boxplot(adsl2$AGE)
+#adsl2 <- mutate(adsl1, DaysBet = TRTEDT - TRTSDT)
+
+#adsl3 <- mutate(adsl2, BMIBL = WEIGHTBL / (HEIGHTBL * HEIGHTBL * 10e-5))
+
+#adsl4 <- mutate(adsl1, DaysBet = TRTEDT - TRTSDT, BMIBL = WEIGHTBL / (HEIGHTBL * HEIGHTBL * 10e-5))
 ```
 
-Grouped boxplot
-We will introduce the ggplot2 package
-Use the ggplot2 cheatsheet (https://www.rstudio.com/resources/cheatsheets/)
 
-ggplot is based on the grammer of graphics. A graph can be thought of being composed of layers
-- ggplot object (contains data, x and y coord values)
-- aes (how to use the data)
+3. filter() Function
+  + Create adsl5 from adsl4, if BMIBL >= 25 and AGE <= 50
+  + Create adsl6 from adsl4, if WHOFCBL ne "CLASS III" and SEX == "M"
+  + Create adsl7 from adsl4, if AGE > 30 and SEX == "M" or AGE < 50 and SEX == "F"
+  
+```{r}
+#adsl5 <- filter(adsl4, BMIBL >= 25 & AGE <= 50)
+
+#adsl6 <- filter(adsl4, WHOFCBL != "CLASS III" & SEX == "M")
+
+#adsl7 <- filter(adsl4, AGE > 30 & SEX == "M" | AGE < 50 & SEX == "F")
+```
+
+4. arrange() Function
+  + Create adsl8 from adsl4, in AGE ordering
+  + Create adsl9 from adsl4, in SEX ordering and AGE descending
+  
+```{r}
+#adsl8 <- arrange(adsl4, AGE)
+
+#adsl9 <- arrange(adsl4, SEX, desc(AGE))
+``` 
+  
+5. summarize() Function
+  + Create adsl10 from adsl4, which return the minimum of AGE, called "min"
+  + Create adsl11 from adsl4, which return the minimum, maximum, mean and standard deviation of AGE called "min", "max", "mean", "sd"
+  
+```{r}
+#adsl10 <- summarize(adsl4, min = min(AGE, na.rm = T))
+#adsl11 <- summarize(adsl4, min=min(AGE, na.rm = T) , average= mean(AGE, na.rm = T), max= max(AGE, na.rm = T), sd= sd(AGE, na.rm = T))
+
+```
+
+6. Pipe operator
+  + Create adsl12 from adsl
+    * Select: SUBJID, AGE, SEX, SMWDBL, WHOFCBL, HEIGHTBL, WEIGHTBL, TRTSDT and TRTEDT
+    * Mutate: BMIBL, BMI of each subject at baseline
+    * Filter: WHOFCBL not equal to ""
+    * Arrange: SEX and descending AGE
 
 ```{r}
-library(ggplot2)
-
-g <- ggplot(adsl2, aes(COHORT,AGE)) 
+#adsl12 <- adsl %>% 
+  #select(SUBJID, AGE, SEX, SMWDBL, WHOFCBL, HEIGHTBL, WEIGHTBL, TRTSDT, TRTEDT) %>% 
+  #mutate(BMIBL = WEIGHTBL / (HEIGHTBL * HEIGHTBL * 10e-5)) %>% 
+  #filter(WHOFCBL != "") %>% 
+  #arrange(SEX, desc(AGE))
 ```
 
-
-Boxplot
+7. Group_by: 
+  + Create adsl13, from adsl12 where we summarize SMWDBL by WHOFCBL 
+  
 ```{r}
-g + geom_boxplot()
+#adsl13 <- adsl12 %>% 
+  #group_by(WHOFCBL) %>% 
+  #summarize(min= min(SMWDBL, na.rm = T), average= mean(SMWDBL, na.rm = T), max= max(SMWDBL, na.rm = T), sd= sd(SMWDBL, na.rm = T))
 ```
+
+## GGPLOT Package 
+
+Now, we can work with GGplot, with 3 differents composantes:
+  + Set of data
+  + Geom layer 
+  + Coordinate set up 
+
+      ggplot(data=..., aes(x = ..., y = ..., col = ..., group = ..., size = ...)) +
+          geom_...()
+  
+To know more about ggplot, we can have a look the many possibilities from the CheatSheet. 
+
+1. Part 1 - Introduction 
+  + Create adsl_ggplot, where BMIBL, SMWDBL, SEX, WHOFCBL don't have missing value
+  + Use geom_point() to adsl_ggplot with SMWDBL as y and BMIBL as x
+  + Use geom_point() to adsl_ggplot with SMWDBL as y and BMIBL as x and SEX as color 
+  + Add geom_smooth to the previous code 
+  + Add facet_grid (.~ WHOFCBL) to the previous code 
+  
+```{r, warning = F}
+
+adsl_ggplot <- adsl4 %>% 
+  filter(!is.na(SMWDBL) & !is.na(BMIBL) & !is.na(SEX) & WHOFCBL != "")
+
+
+#ggplot(data = adsl_ggplot, aes(x = BMIBL, y = SMWDBL)) + 
+#  geom_point()
+
+#ggplot(data = adsl_ggplot, aes(x = BMIBL, y = SMWDBL, col = SEX)) + 
+#  geom_point()
+
+#ggplot(data = adsl_ggplot, aes(x = BMIBL, y = SMWDBL, col = SEX)) + 
+#  geom_point() +
+#  geom_smooth()
+
+#ggplot(data = adsl_ggplot, aes(x = BMIBL, y = SMWDBL, col = SEX)) + 
+#  geom_point() +
+#  geom_smooth() + 
+#  facet_grid(WHOFCBL ~.)
+```
+
+2. Part 2 - Aesthetics
+  + We will keep adsl_ggplot as a dataset
+  + Use geom_point() where alpha = 0.5 to adsl_ggplot with SMWDBL as y and BMIBL as x, AGE as color
+  + Add facet_grid (.~ WHOFCBL) 
+  + Add SEX as shape in the ggplot aesthetic
+  + Add SEX as fill aesthetic and geom_smooth where method = "lm"
+  + All SUBJID as label in in the ggplot aesthetic and add geom_text whith size = 3
+
 ```{r}
-g + geom_bar(stat = "identity")+theme_bw()
+
+#ggplot(data = adsl_ggplot, aes(x = BMIBL, y = SMWDBL, col = AGE)) + 
+#  geom_point()
+
+#ggplot(data = adsl_ggplot, aes(x = BMIBL, y = SMWDBL, col = AGE)) + 
+#  geom_point() + 
+#  facet_grid(WHOFCBL ~.)
+
+#ggplot(data = adsl_ggplot, aes(x = BMIBL, y = SMWDBL, col = AGE, shape = SEX)) + 
+#  geom_point() + 
+#  facet_grid(WHOFCBL ~.)
+
+#ggplot(data = adsl_ggplot, aes(x = BMIBL, y = SMWDBL, fill = SEX, col = AGE, shape = SEX, label= SUBJID)) + 
+#  geom_point(alpha = 0.5) + 
+#  facet_grid(WHOFCBL ~.) + 
+#  geom_smooth(method = "lm") + 
+#  geom_text(size = 3)
 ```
-What other plots can you do?
 
-Use the ggplot cheatsheet to do 1 of each:
-- discrete x, discrete y
-- continous x , continuous y
-
+3. Part 3 - Geom 
+  + We will keep adsl_ggplot as a dataset
+  + Now, use WHOFCBL as x and y = SMWDBL and geom_point
+  + replace geom_point() by geom_jitter and then set width to 0.2 and alpha to 0.3 and shape to 1
+  + Now drop the y aes and replace WHOFCBL by SMWDBL from ggplot and replace completely by geom_histogram
+  + Create y = ..density.. to the aes from geom_histogram and set fill to WHOFCBL, outside aes set alpha to 0.6 
+  + Define a ne ggplot, map with WHOFCBL as x and fill as SEX and add geom_bar()
+  + Inside geom_bar() add position = "stack" then change to "fill" and then to "dodge"
+  +
+  
 ```{r}
-adsl3 <-
-  adsl2 %>%
-  group_by(COHORT) %>%
-  mutate(avg_age = mean(AGE),
-         min_age = min(AGE),
-         max_age = max(AGE)) 
+#ggplot(data = adsl_ggplot, aes(x = WHOFCBL, y = SMWDBL)) + 
+#  geom_point()
+
+#ggplot(data = adsl_ggplot, aes(x = WHOFCBL, y = SMWDBL)) + 
+#  geom_jitter(width = 0.2, alpha = 0.3, shape = 1) 
+
+#ggplot(data = adsl_ggplot, aes(x = SMWDBL)) + 
+#  geom_histogram() 
+
+#ggplot(data = adsl_ggplot, aes(x = SMWDBL)) + 
+#  geom_histogram(aes(y = ..density.., fill = WHOFCBL), alpha = 0.6)
+
+#ggplot(data = adsl_ggplot, aes(x = WHOFCBL, fill = SEX)) + 
+#  geom_bar()
+
+#ggplot(data = adsl_ggplot, aes(x = WHOFCBL, fill = SEX)) + 
+#  geom_bar(position = "dodge")
+
+#ggplot(data = adsl_ggplot, aes(x = WHOFCBL, fill = SEX)) + 
+#  geom_bar(position = "dodge")
 ```
-
-
-```{r}
-library(knitr)
-adsl3 %>% 
-  head() %>% 
-  kable()
-```
-
-
-
+  
