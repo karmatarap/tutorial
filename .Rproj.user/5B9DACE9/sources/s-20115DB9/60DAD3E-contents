@@ -1,6 +1,6 @@
 ---
 title: "Introduction to R (offsite)"
-author: "Karma"
+author: "Antoine, Hilke, Karma"
 date: "12 November 2018"
 output: html_document
 ---
@@ -20,6 +20,26 @@ knitr::opts_chunk$set(echo = TRUE)
 + Creation of shiny applications to make your analysis dynamic
 
 *Tip: When in doubt, always experiment
+
+
+# What is R?
+
+R is a *programming language designed for statistical computing*.
+Notable characteristics include:
+
+-   Vast capabilities, wide range of statistical and graphical
+    techniques
+-   Very popular in academia, growing popularity in business:
+    <http://r4stats.com/articles/popularity/>
+-   Written primarily by statisticians
+-   FREE (no monetary cost and open source)
+-   Excellent community support: mailing list, blogs, tutorials
+-   Easy to extend by writing new functions
+
+Whatever you're trying to do, you're probably not the first to try doing
+it R. Chances are good that someone has already written a package for
+that.
+
 
 
 # Resources
@@ -60,11 +80,20 @@ A simple warmup question.
 
 You can find help on functions using the help function. For example, to find help on the `max` function, you can type `help(max)` in the console window.
 
+
+
 1) Insert a code block
 2) What is the description of the `min` funtion? Paste the result as a comment in the block you created. Comments in R are preceded by #. Place `#` before the description to comment it out.
  
 **Insert code block below here** 
  
+ 
+ 
+The `help` function can be used to look up the documentation for a function, or to look up the documentation to a package. We can learn how to use the `dplyr` package by reading its documentation like this:
+
+```{r eval=FALSE}
+help(package = "dplyr")
+```
  
  
 # Packages
@@ -90,6 +119,9 @@ library(sas7bdat)
 
 We will read the ADSL dataset from the OPUS registry.
 
+
+
+
 Gotcha 1: Our first gotcha: Backslashes in R have to be escaped, this means we have to add extra backslash for every backslash to out path. Alternatively, use forward slashes.
 
 
@@ -97,13 +129,25 @@ Gotcha 1: Our first gotcha: Backslashes in R have to be escaped, this means we h
 #\\actelion.com\POOL\GLOBAL\BIOSTATISTICS\Clinical Projects\ACT-064992_Macitentan\ACT-064992_in_PAH_adult\Regulatory Authorities\FDC Maci and Tada\US (FDA)\OPUS_FDC\ADaM_Data
 
 
-adsl <- read.sas7bdat("\\\\actelion.com\\POOL\\GLOBAL\\BIOSTATISTICS\\Clinical Projects\\ACT-064992_Macitentan\\ACT-064992_in_PAH_adult\\Regulatory Authorities\\FDC Maci and Tada\\US (FDA)\\OPUS_FDC\\ADaM_Data\\adsl.sas7bdat")
+#adsl <- read.sas7bdat("\\\\actelion.com\\POOL\\GLOBAL\\BIOSTATISTICS\\Clinical Projects\\ACT-064992_Macitentan\\ACT-064992_in_PAH_adult\\Regulatory Authorities\\FDC Maci and Tada\\US (FDA)\\OPUS_FDC\\ADaM_Data\\adsl.sas7bdat")
+
+adsl <- read.sas7bdat(".\\data\\adsl.sas7bdat")
 ```
 
 The "<-" is an assignment operator. Assignments can also be done with "=", however convention dictates we use the former.
 
 
 Tip: Use best practices by following the Tidyverse style guide: https://style.tidyverse.org/
+
+
+We can also read a host of other formats as follows
+
+| Data Type                 | Function        |
+| ------------------------- | --------------- |
+| comma separated           | `read_csv()`    |
+| tab separated             | `read_delim()`  |
+| other delimited formats   | `read_table()`  |
+| fixed width               | `read_fwf()`    |
 
 
 # The dataframe object
@@ -137,7 +181,7 @@ nrow(adsl)
 
 Equivalent to using "data" and "_last_" in SAS:
 
-```{r, engine="sas", engine.path="C:/Program Files/SASHome/SASFoundation/9.4/sas.exe" eval=FALSE}
+```{r, engine="sas", engine.path="C:/Program Files/SASHome/SASFoundation/9.4/sas.exe", eval=FALSE}
 data;   
   set sashelp.class;
   run;
@@ -171,7 +215,7 @@ Gotcha 2: R is case sensitive, variables are case sensitive.
   eg. x = 4 = 4;
 
     
-```{r, engine="sas", engine.path="C:/Program Files/SASHome/SASFoundation/9.4/sas.exe" eval=FALSE}
+```{r, engine="sas", engine.path="C:/Program Files/SASHome/SASFoundation/9.4/sas.exe", eval=FALSE}
   data _null_ ;
     x = 4 = 4 ;
     put x;
@@ -185,10 +229,20 @@ is valid SAS syntax, the first '=' is assignment, the second is to assess equali
     - "<",">" , "<>" (less than, more than, not equal for numerics) 
    
    
-And/Or operators:
-- & = "and"
-- | = "or"
 
+Logical operators
+
+ | Operator  | Meaning                   | 
+ | ----------| --------------------------| 
+ | `==`      | equal to                  | 
+ | `!=`      | not equal to              | 
+ | `>`       | greater than              | 
+ | `>=`      | greater than or equal to  | 
+ | `<`       | less than                 | 
+ | `<=`      | less than or equal to     | 
+ | `%in%`    | contained in              | 
+ 
+ 
 
 ### Warmup 2:
 
@@ -222,28 +276,35 @@ The first argument to the select function is the dataframe, the remaining argume
 
 
 ```{r}
-adsl1 <- select(adsl, SUBJID, AGE, SEX, SMWDBL, WHOFCBL, HEIGHTBL, WEIGHTBL, TRTSDT, TRTEDT)
-head(adsl1)
+#adsl1 <- select(adsl, SUBJID, AGE, SEX, SMWDBL, WHOFCBL, HEIGHTBL, WEIGHTBL, TRTSDT, TRTEDT)
+#head(adsl1)
 ```
 
 From the answer above, we should be able to see a lot of `NaN`s. NaN stands for 'Not a Number', a special type of missing number. Many R functions can remove these during calculations using the argument `na.rm=TRUE`
 
 
+
 2. mutate() Function
-  + Create a new data frame called adsl2, which is adsl1 and an additional column: DaysBet, the number of days between TRTEDT and TRTSDT.
+
+The `mutate` function makes it easy to add or modify the columns of a `data.frame`.
+
+  + Create a new data frame called adsl2, which is adsl1 and an additional column: TrtDuration, the number of days between TRTEDT and TRTSDT. 
   + Create a new data frame called adsl3, which is adsl2 and an additionnal column BMIBL, BMI of each subject at baseline. 
   + Create adsl4, which combines the previous two steps into one mutate function call.
 
 ```{r}
-#adsl2 <- mutate(adsl1, DaysBet = TRTEDT - TRTSDT)
+#adsl2 <- mutate(adsl1, TrtDuration = TRTEDT - TRTSDT + 1)
 
 #adsl3 <- mutate(adsl2, BMIBL = WEIGHTBL / (HEIGHTBL * HEIGHTBL * 10e-5))
 
-#adsl4 <- mutate(adsl1, DaysBet = TRTEDT - TRTSDT, BMIBL = WEIGHTBL / (HEIGHTBL * HEIGHTBL * 10e-5))
+#adsl4 <- mutate(adsl1, TrtDuration = TRTEDT - TRTSDT + 1, BMIBL = WEIGHTBL / (HEIGHTBL * HEIGHTBL * 10e-5))
 ```
 
 
 3. filter() Function
+
+Filter is the equivalent of using a where statement. Create new dataframes with the following filter criteria.
+
   + Create adsl5 from adsl4, where BMIBL is between 25 and 50 inclusive
   + Create adsl6 from adsl4, where WHOFCBL is not Class III and Gender is male
   + Create adsl7 from adsl4, where (AGE is greater 30 and  male) or (AGE is less than 50 and female).
@@ -257,6 +318,9 @@ From the answer above, we should be able to see a lot of `NaN`s. NaN stands for 
 ```
 
 4. arrange() Function
+
+Arrange allows you to sort the dataframe.
+
   + Create adsl8 from adsl4, order by AGE
   + Create adsl9 from adsl4, order by ascending SEX and descending AGE
   
@@ -267,6 +331,9 @@ From the answer above, we should be able to see a lot of `NaN`s. NaN stands for 
 ``` 
   
 5. summarize() Function
+
+Summarize allows you to create summary statistics. Look at the dplyr cheatsheet to see how it is used
+
   + Create adsl10 from adsl4, which return the minimum of AGE, called "min"
   + Create adsl11 from adsl4, which return the minimum, maximum, mean and standard deviation of AGE called "min", "max", "mean", "sd". 
   
@@ -307,11 +374,11 @@ Let's look at pulling a lot of what we have learnt in the previous steps into a 
 
 # GGPLOT Package 
 
+ggplot is the de-facto plotting package in R
 
-
-Now, we can work with GGplot, with 3 differents composantes:
+Now, we can work with GGplot, with 3 differents components:
   + Set of data
-  + Geom layer 
+  + Geom layer (mapping of data points)
   + Coordinate set up 
 
       ggplot(data=..., aes(x = ..., y = ..., col = ..., group = ..., size = ...)) +
@@ -328,8 +395,8 @@ To know more about ggplot, we can have a look at the many possibilities from the
   
 ```{r, warning = F}
 
-adsl_ggplot <- adsl4 %>% 
-  filter(!is.na(SMWDBL) & !is.na(BMIBL) & !is.na(SEX) & WHOFCBL != "")
+#adsl_ggplot <- adsl4 %>% 
+#  filter(!is.na(SMWDBL) & !is.na(BMIBL) & !is.na(SEX) & WHOFCBL != "")
 
 
 #ggplot(data = adsl_ggplot, aes(x = BMIBL, y = SMWDBL)) + 
@@ -384,7 +451,7 @@ adsl_ggplot <- adsl4 %>%
   + Create y = ..density.. to the aes from geom_histogram and set fill to WHOFCBL, outside aes set alpha to 0.6 
   + Define a ne ggplot, map with WHOFCBL as x and fill as SEX and add geom_bar()
   + Inside geom_bar() add position = "stack" then change to "fill" and then to "dodge"
-  +
+ 
   
 ```{r}
 #ggplot(data = adsl_ggplot, aes(x = WHOFCBL, y = SMWDBL)) + 
@@ -412,7 +479,36 @@ adsl_ggplot <- adsl4 %>%
   
   
 # Optional from here on  
-  
+
+Data structures
+---------------
+
+There are two basic data structures in R: *vectors* and *lists*.
+
+Vectors are of a  particular *type*, e.g., *integer*, *double*, or *character*.
+Vectors can be created using the `c` function, like this:
+
+```{r}
+x <- c(1, 2, 3) # numeric vector
+x
+```
+
+```{r}
+y <- c("1", "2", "3") # character vector
+y
+```
+
+Lists are not restricted to a single type and can be used to hold
+just about anything. They can be created using the `list` function, 
+like this:
+
+```{r}
+z <- list(1, c(1, 2, 3, 4), list(c(1, 2), c("a", "b")))
+z
+```
+
+
+
   
   
   
