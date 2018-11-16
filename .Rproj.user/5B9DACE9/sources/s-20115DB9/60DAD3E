@@ -1,0 +1,24 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1542018018135.000,
+    "dirty" : true,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "60DAD3E",
+    "lastKnownWriteTime" : 1542301159,
+    "last_content_update" : 1542350840398,
+    "path" : "C:/Users/ktarap/Projects/training/tutorial/tutorial.Rmd",
+    "project_path" : "tutorial.Rmd",
+    "properties" : {
+        "cursorPosition" : "405,31",
+        "last_setup_crc32" : "",
+        "scrollLine" : "386",
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

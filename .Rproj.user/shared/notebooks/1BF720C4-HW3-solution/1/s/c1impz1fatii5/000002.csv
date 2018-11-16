@@ -1,0 +1,7 @@
+"0","##Your code here"
+"0","library(pollstR)"
+"0","race2016 <- pollstr_polls(topic = ""2016-president-gop-primary"", "
+"0","                       max_pages = Inf)"
+"2","Error in pollstr_polls(topic = ""2016-president-gop-primary"", max_pages = Inf) : 
+  could not find function ""pollstr_polls""
+"

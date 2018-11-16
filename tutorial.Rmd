@@ -196,7 +196,7 @@ How many rows were deleted from ADSL using the filter criteria above?
 Hint: use nrow and ncol functions
 
 ```{r}
-nrow(adsl)-nrow(adsl1)
+#nrow(adsl)-nrow(adsl1)
 ```
   
  
@@ -226,7 +226,7 @@ adsl1 <- select(adsl, SUBJID, AGE, SEX, SMWDBL, WHOFCBL, HEIGHTBL, WEIGHTBL, TRT
 head(adsl1)
 ```
 
-From the answer above, we should be able to see a lot of `NaN`s. NaN stands for 'Not a Number', a special type of missing number. 
+From the answer above, we should be able to see a lot of `NaN`s. NaN stands for 'Not a Number', a special type of missing number. Many R functions can remove these during calculations using the argument `na.rm=TRUE`
 
 
 2. mutate() Function
@@ -244,9 +244,9 @@ From the answer above, we should be able to see a lot of `NaN`s. NaN stands for 
 
 
 3. filter() Function
-  + Create adsl5 from adsl4, if BMIBL >= 25 and AGE <= 50
-  + Create adsl6 from adsl4, if WHOFCBL ne "CLASS III" and SEX == "M"
-  + Create adsl7 from adsl4, if AGE > 30 and SEX == "M" or AGE < 50 and SEX == "F"
+  + Create adsl5 from adsl4, where BMIBL is between 25 and 50 inclusive
+  + Create adsl6 from adsl4, where WHOFCBL is not Class III and Gender is male
+  + Create adsl7 from adsl4, where (AGE is greater 30 and  male) or (AGE is less than 50 and female).
   
 ```{r}
 #adsl5 <- filter(adsl4, BMIBL >= 25 & AGE <= 50)
@@ -257,8 +257,8 @@ From the answer above, we should be able to see a lot of `NaN`s. NaN stands for 
 ```
 
 4. arrange() Function
-  + Create adsl8 from adsl4, in AGE ordering
-  + Create adsl9 from adsl4, in SEX ordering and AGE descending
+  + Create adsl8 from adsl4, order by AGE
+  + Create adsl9 from adsl4, order by ascending SEX and descending AGE
   
 ```{r}
 #adsl8 <- arrange(adsl4, AGE)
@@ -268,7 +268,7 @@ From the answer above, we should be able to see a lot of `NaN`s. NaN stands for 
   
 5. summarize() Function
   + Create adsl10 from adsl4, which return the minimum of AGE, called "min"
-  + Create adsl11 from adsl4, which return the minimum, maximum, mean and standard deviation of AGE called "min", "max", "mean", "sd"
+  + Create adsl11 from adsl4, which return the minimum, maximum, mean and standard deviation of AGE called "min", "max", "mean", "sd". 
   
 ```{r}
 #adsl10 <- summarize(adsl4, min = min(AGE, na.rm = T))
@@ -277,7 +277,10 @@ From the answer above, we should be able to see a lot of `NaN`s. NaN stands for 
 ```
 
 6. Pipe operator
-  + Create adsl12 from adsl
+
+Let's look at pulling a lot of what we have learnt in the previous steps into a single statement using the pipe operator.
+
+  + Create adsl12 from adsl 
     * Select: SUBJID, AGE, SEX, SMWDBL, WHOFCBL, HEIGHTBL, WEIGHTBL, TRTSDT and TRTEDT
     * Mutate: BMIBL, BMI of each subject at baseline
     * Filter: WHOFCBL not equal to ""
@@ -300,7 +303,11 @@ From the answer above, we should be able to see a lot of `NaN`s. NaN stands for 
   #summarize(min= min(SMWDBL, na.rm = T), average= mean(SMWDBL, na.rm = T), max= max(SMWDBL, na.rm = T), sd= sd(SMWDBL, na.rm = T))
 ```
 
-## GGPLOT Package 
+
+
+# GGPLOT Package 
+
+
 
 Now, we can work with GGplot, with 3 differents composantes:
   + Set of data
@@ -310,7 +317,7 @@ Now, we can work with GGplot, with 3 differents composantes:
       ggplot(data=..., aes(x = ..., y = ..., col = ..., group = ..., size = ...)) +
           geom_...()
   
-To know more about ggplot, we can have a look the many possibilities from the CheatSheet. 
+To know more about ggplot, we can have a look at the many possibilities from the cheatSheet. 
 
 1. Part 1 - Introduction 
   + Create adsl_ggplot, where BMIBL, SMWDBL, SEX, WHOFCBL don't have missing value
