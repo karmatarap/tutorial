@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1542360949122.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "BFF55B7F",
+    "lastKnownWriteTime" : 1542360947,
+    "last_content_update" : 1542360947,
+    "path" : "C:/Users/ktarap/Downloads/06-regression.R",
+    "project_path" : null,
+    "properties" : {
+        "cursorPosition" : "420,17",
+        "scrollLine" : "396"
+    },
+    "relative_order" : 7,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

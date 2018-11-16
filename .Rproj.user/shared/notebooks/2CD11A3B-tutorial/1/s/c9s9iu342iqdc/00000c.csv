@@ -1,7 +1,0 @@
-"0","library(dplyr)"
-"0"," "
-"0","adsl1 <- "
-"0","  adsl %>%"
-"0","  filter(COHORT != """" & ITTFL == ""Y"")"
-"0","#implicit first argument passed via pipe operator"
-"0","adsl1 <- filter(adsl, COHORT != """" & ITTFL == ""Y"")"

@@ -1,0 +1,24 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1542018018135.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "60DAD3E",
+    "lastKnownWriteTime" : 1542365567,
+    "last_content_update" : 1542365567059,
+    "path" : "C:/Users/ktarap/Projects/training/tutorial/RWorkshop_Intro.Rmd",
+    "project_path" : "RWorkshop_Intro.Rmd",
+    "properties" : {
+        "cursorPosition" : "511,2",
+        "last_setup_crc32" : "20115DB9bb338d19",
+        "scrollLine" : "478",
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

@@ -1,0 +1,5 @@
+"0","#\\actelion.com\POOL\GLOBAL\BIOSTATISTICS\Clinical Projects\ACT-064992_Macitentan\ACT-064992_in_PAH_adult\Regulatory Authorities\FDC Maci and Tada\US (FDA)\OPUS_FDC\ADaM_Data"
+"0","adsl <- read.sas7bdat(""\\\\actelion.com\\POOL\\GLOBAL\\BIOSTATISTICS\\Clinical Projects\\ACT-064992_Macitentan\\ACT-064992_in_PAH_adult\\Regulatory Authorities\\FDC Maci and Tada\\US (FDA)\\OPUS_FDC\\ADaM_Data\\adsl.sas7bdat"")"
+"2","cannot open file '\\actelion.com\POOL\GLOBAL\BIOSTATISTICS\Clinical Projects\ACT-064992_Macitentan\ACT-064992_in_PAH_adult\Regulatory Authorities\FDC Maci and Tada\US (FDA)\OPUS_FDC\ADaM_Data\adsl.sas7bdat': No such file or directory"
+"2","Error in file(file, ""rb"") : cannot open the connection
+"

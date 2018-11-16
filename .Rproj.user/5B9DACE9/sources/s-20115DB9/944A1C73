@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1542300387068.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "944A1C73",
+    "lastKnownWriteTime" : 1542290830,
+    "last_content_update" : 1542290830,
+    "path" : "C:/Users/ktarap/Projects/training/tutorial/training1.Rmd",
+    "project_path" : "training1.Rmd",
+    "properties" : {
+        "cursorPosition" : "56,39",
+        "scrollLine" : "42"
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

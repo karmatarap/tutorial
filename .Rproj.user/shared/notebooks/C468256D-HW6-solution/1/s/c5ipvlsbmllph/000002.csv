@@ -1,0 +1,7 @@
+"0","## put your code here"
+"0","set.seed(755)"
+"0","n_test <- round(nrow(ratings) / 10)"
+"0","test_indices <- sample(1:nrow(ratings), n_test, replace=FALSE)"
+"0","test <- ratings[test_indices,]"
+"0","train <- ratings[-test_indices,]"
+"0","rm(ratings) #to save space"

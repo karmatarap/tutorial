@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1542363099045.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "5E889EA3",
+    "lastKnownWriteTime" : 1542365489,
+    "last_content_update" : 1542365489387,
+    "path" : "C:/Users/ktarap/Projects/training/tutorial/RWorkshop_Shiny.Rmd",
+    "project_path" : "RWorkshop_Shiny.Rmd",
+    "properties" : {
+        "cursorPosition" : "78,0",
+        "scrollLine" : "72"
+    },
+    "relative_order" : 8,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

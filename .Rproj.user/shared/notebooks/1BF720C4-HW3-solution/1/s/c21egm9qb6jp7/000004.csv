@@ -1,0 +1,7 @@
+"0","##Your code here"
+"0","library(dplyr)"
+"0","results <- race2016$questions"
+"0","results <- filter(results, topic==""2016-president-gop-primary"" & state != ""US"")"
+"2","Error in UseMethod(""filter_"") : 
+  no applicable method for 'filter_' applied to an object of class ""NULL""
+"
