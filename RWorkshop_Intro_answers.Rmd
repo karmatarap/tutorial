@@ -248,7 +248,7 @@ How many rows were deleted from ADSL using the filter criteria above?
 Hint: use nrow and ncol functions
 
 ```{r}
-
+nrow(adsl)-nrow(adsl_fr)
 ```
   
  
@@ -270,13 +270,13 @@ The first argument to the select function is the dataframe, the remaining argume
 
   + Create a new dataframe called `adsl1` from `adsl` that contains: SUBJID, AGE, SEX, SMWDBL, WHOFCBL, HEIGHTBL, WEIGHTBL, TRTSDT and TRTEDT 
 ```{r}
-
+adsl1 <- select(adsl, SUBJID, AGE, SEX, SMWDBL, WHOFCBL, HEIGHTBL, WEIGHTBL, TRTSDT, TRTEDT)
 ```
   
   + Use the head function to print a small subset of `adsl1`.
   HINT: Use the help function we saw previously to see how to use `head`.
 ```{r}
-
+head(adsl1)
 ```
 
 From the answer above, we should be able to see a lot of `NaN`s. NaN stands for 'Not a Number', a special type of missing number. You may see this as `NAs` depending on which package you used to read the data. Many R functions can remove NAs/NaNs during calculations using the argument `na.rm=TRUE`
@@ -301,7 +301,7 @@ cont_vars <- adsl1 %>% select_if(is.numeric)
 
 + Create the dataframe cat_vars that contain the character variables in adsl1
 ```{r}
-
+cat_vars <- adsl1 %>% select_if(is.character)
 ```
 
 
@@ -317,12 +317,12 @@ adsl2 <- mutate(adsl1, TrtDuration = TRTEDT - TRTSDT + 1)
   
   + Create a new data frame called adsl3, which is adsl2 and an additionnal column BMIBL, BMI of each subject at baseline. 
 ```{r}
-
+adsl3 <- mutate(adsl2, BMIBL = WEIGHTBL / ( HEIGHTBL^2 * 10e-5))
 ```
   
   + Create adsl4, which combines the previous two steps into one mutate function call.
 ```{r}
-
+adsl4 <- mutate(adsl1, TrtDuration = TRTEDT - TRTSDT + 1, BMIBL = WEIGHTBL / (HEIGHTBL^2  * 10e-5))
 ```
 
 
@@ -338,13 +338,13 @@ adsl5 <- filter(adsl4, BMIBL >= 25 & BMIBL  <= 50)
   + Create adsl6 from adsl4, where WHOFCBL is not Class III and Gender is male
 ```{r}
 
-
+adsl6 <- filter(adsl4, WHOFCBL != "CLASS III" & SEX == "M")
 ```
   
   + Create adsl7 from adsl4, where (AGE is greater 30 and  male) or (AGE is less than 50 and female).
   
 ```{r}
-
+adsl7 <- filter(adsl4, AGE > 30 & SEX == "M" | AGE < 50 & SEX == "F")
 ```
 
 4. arrange() Function
@@ -358,7 +358,7 @@ adsl8 <- arrange(adsl4, AGE)
   
   + Create adsl9 from adsl4, order by ascending SEX and descending AGE
 ```{r}
-
+adsl9 <- arrange(adsl4, SEX, desc(AGE))
 ``` 
  
  
@@ -374,7 +374,7 @@ Variables can be referenced individually from the dataframe using the $ notation
  
 + Summarize the variable SMWDBL
 ```{r}
-
+summary(adsl1$SMWDBL)
 ```
 
 
@@ -391,7 +391,7 @@ adsl10 <- summarize(adsl4, min = min(AGE, na.rm = T))
   
   + Create adsl11 from adsl4, which return the minimum, maximum, mean and standard deviation of AGE called "min", "max", "mean", "sd". 
 ```{r}
-
+adsl11 <- summarize(adsl4, min=min(AGE, na.rm = T) , average= mean(AGE, na.rm = T), max= max(AGE, na.rm = T), sd= sd(AGE, na.rm = T))
 
 ```
 
@@ -415,7 +415,9 @@ adsl12 <- adsl %>%
 8. Group_by: 
   + Create adsl13, from adsl12 where we summarize SMWDBL by WHOFCBL 
 ```{r}
-
+adsl13 <- adsl12 %>% 
+  group_by(WHOFCBL) %>% 
+  summarize(min= min(SMWDBL, na.rm = T), average= mean(SMWDBL, na.rm = T), max= max(SMWDBL, na.rm = T), sd= sd(SMWDBL, na.rm = T))
 ```
 
 
@@ -449,41 +451,53 @@ adsl_ggplot <- adsl4 %>%
   
   + Use geom_point() to adsl_ggplot with SMWDBL as y and BMIBL as x
 ```{r, warning = F}
-
+ggplot(data = adsl_ggplot, aes(x = BMIBL, y = SMWDBL)) + 
+  geom_point()
 ```
   
   + Use geom_point() to adsl_ggplot with SMWDBL as y and BMIBL as x and SEX as color 
 ```{r, warning = F}
-
+ggplot(data = adsl_ggplot, aes(x = BMIBL, y = SMWDBL, col = SEX)) + 
+  geom_point()
 ```
   
   + Add geom_smooth to the previous code 
   Geom_smooth adds a regression line to the plot, and unless otherwise specified, you get the model y~x using loess (locally estimated scatterplot smoothing).
 ```{r, warning = F}
-
+ggplot(data = adsl_ggplot, aes(x = BMIBL, y = SMWDBL, col = SEX)) + 
+  geom_point() +
+  geom_smooth()
 ```
   
   + Add facet_grid (.~ WHOFCBL) to the previous code 
   
 ```{r, warning = F}
-
+ggplot(data = adsl_ggplot, aes(x = BMIBL, y = SMWDBL, col = SEX)) + 
+  geom_point() +
+  geom_smooth() + 
+  facet_grid(WHOFCBL ~.)
 ```
 
 2. Part 2 - Aesthetics
   + We will keep adsl_ggplot as a dataset
   + Use geom_point() where alpha = 0.5 to adsl_ggplot with SMWDBL as y and BMIBL as x, AGE as color. Here the alpha parameter controls transparency. Why not try a few values?
 ```{r}
-
+ggplot(data = adsl_ggplot, aes(x = BMIBL, y = SMWDBL, col = AGE)) + 
+  geom_point(alpha = 0.5)
 ```
   
   + Add facet_grid (.~ WHOFCBL) 
 ```{r}
-
+ggplot(data = adsl_ggplot, aes(x = BMIBL, y = SMWDBL, col = AGE)) + 
+  geom_point(alpha=0.5) + 
+  facet_grid(WHOFCBL ~.)
 ```
   
   + Add SEX as shape in the ggplot aesthetic
 ```{r}
-
+ggplot(data = adsl_ggplot, aes(x = BMIBL, y = SMWDBL, col = AGE, shape = SEX)) + 
+  geom_point() + 
+  facet_grid(WHOFCBL ~.)
 ```
   
   + Add SEX as fill aesthetic and geom_smooth where method = "lm". Now we are using a linear regression instead of loess
@@ -497,7 +511,11 @@ ggplot(data = adsl_ggplot, aes(x = BMIBL, y = SMWDBL, fill = SEX, col = AGE, sha
   + All SUBJID as label in in the ggplot aesthetic and add geom_text whith size = 3
 
 ```{r}
-
+ggplot(data = adsl_ggplot, aes(x = BMIBL, y = SMWDBL, fill = SEX, col = AGE, shape = SEX, label= SUBJID)) + 
+  geom_point(alpha = 0.5) + 
+  facet_grid(WHOFCBL ~.) + 
+  geom_smooth(method = "lm") + 
+  geom_text(size = 3)
 ```
 
 3. Part 3 - Geom 
@@ -510,7 +528,8 @@ ggplot(data = adsl_ggplot, aes(x = WHOFCBL, y = SMWDBL)) +
   
   + replace geom_point() by geom_jitter and then set width to 0.2 and alpha to 0.3 and shape to 1
 ```{r}
-
+ggplot(data = adsl_ggplot, aes(x = WHOFCBL, y = SMWDBL)) + 
+  geom_jitter(width = 0.2, alpha = 0.3, shape = 1) 
 ```
   
   + Now drop the y aes and replace WHOFCBL by SMWDBL from ggplot and replace completely by geom_histogram
@@ -521,19 +540,28 @@ ggplot(data = adsl_ggplot, aes(x = SMWDBL)) +
   
   + Create y = ..density.. to the aes from geom_histogram and set fill to WHOFCBL, outside aes set alpha to 0.6 
 ```{r}
-
+ggplot(data = adsl_ggplot, aes(x = SMWDBL)) + 
+  geom_histogram(aes(y = ..density.., fill = WHOFCBL), alpha = 0.6)
 ```
   
-  + Define a new ggplot, map with WHOFCBL as x and fill as SEX and add geom_bar()
+  + Define a ne ggplot, map with WHOFCBL as x and fill as SEX and add geom_bar()
 ```{r}
-
+ggplot(data = adsl_ggplot, aes(x = WHOFCBL, fill = SEX)) + 
+  geom_bar()
 ```
   
   + Inside geom_bar() add position = "stack" then change to "fill" and then to "dodge"
  
   
 ```{r}
+ggplot(data = adsl_ggplot, aes(x = WHOFCBL, fill = SEX)) + 
+  geom_bar(position = "stack")
 
+ggplot(data = adsl_ggplot, aes(x = WHOFCBL, fill = SEX)) + 
+  geom_bar(position = "fill")
+
+ggplot(data = adsl_ggplot, aes(x = WHOFCBL, fill = SEX)) + 
+  geom_bar(position = "dodge")
 ```
   
   
