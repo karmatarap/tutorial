@@ -10,7 +10,8 @@ Shiny allows us to bring interactivity to our application. It can be useful for 
 In Shiny there are two main function, UI (User interface) which is how the app will be displayed and the server which is the black box, where we create our functions. 
 
 ```{r}
-# HK: If you add library( shiny ) here this becomes code that works
+library(shiny)
+
       ui <- fluidPage(
           
           titlePanel("Hello Shiny!"),
@@ -104,19 +105,19 @@ The function hist creates a histogram of the variable x with breaks (cut-points 
   + Create __adsl_ggplot__ where there is __any missing values__ in SMWDBL, BMIBL, SEX, WHOFCBL
   
 ```{r, message = F}
-library(tidyverse)
-library(shiny)
-library(haven)
+#library(tidyverse)
+#library(shiny)
+#library(haven)
 
-adsl <- read_sas("C:/Users/astos/Desktop/RWorkshop/adsl.sas7bdat")
-adsl1 <- select(adsl, SUBJID, AGE, SEX, SMWDBL, WHOFCBL, HEIGHTBL, WEIGHTBL, TRTSDT, TRTEDT)
-adsl4 <- mutate(adsl1, DaysBet = TRTEDT - TRTSDT, BMIBL = WEIGHTBL / (HEIGHTBL * HEIGHTBL * 10e-5))
-adsl_ggplot <- adsl4 %>% 
-  filter(!is.na(SMWDBL) & !is.na(BMIBL) & !is.na(SEX) & WHOFCBL != "")
+#adsl <- read_sas(...*ANSWER*...)
+#adsl1 <- select(adsl, ...*ANSWER*...)
+#adsl4 <- mutate(adsl1, TrtDuration = ...*ANSWER*..., ...*ANSWER*... = ...*ANSWER*... / (...*ANSWER*... * HEIGHTBL * 10e-5))
+#adsl_ggplot <- ...*ANSWER*... %>% 
+#  filter(!is.na(...*ANSWER*...) & !is.na(...*ANSWER*...) & !...*ANSWER*... & WHOFCBL != ...*ANSWER*...)
 
 ```
 
-names(adsl)
+
 ### 1. Single quantitative variable
 
 ####- Set up the dataset
@@ -124,14 +125,14 @@ names(adsl)
   + We will start with __adsl_ggplot__ dataset 
   + Create __adsl_shiny__ where there are only numeric variables
 ```{r}
-adsl_shiny <- adsl_ggplot %>% 
-  select_if(is.numeric)
+#adsl_shiny <- adsl_ggplot %>% 
+#  select_if(...*ANSWER*...)
 ```
 
   + Create an __histogram__ of __SMWDBL__ using __ggplot__ 
 ```{r}
-ggplot(data = adsl_ggplot, aes(x = SMWDBL)) + 
- geom_histogram()
+#ggplot(data = ...*ANSWER*..., aes(x = ...*ANSWER*...)) + 
+# geom_...*ANSWER*...()
 ```
 
 ####- Set up the user interface function as in the example above
@@ -141,8 +142,8 @@ ggplot(data = adsl_ggplot, aes(x = SMWDBL)) +
     * Column names of adsl_shiny as __choices__
     
 ```{r}
-selectInput(inputId = "var", label = "Choose your variable", 
-            choices = names(adsl_shiny))
+#selectInput(inputId = ...*ANSWER*..., label = ...*ANSWER*..., 
+#            choices = names(...*ANSWER*...))
 ```
 
 
@@ -159,11 +160,11 @@ selectInput(inputId = "var", label = "Choose your variable",
     * Add a __geom_density__ with alpha = 0.2 and fill = "green"
 
 ```{r}
-renderPlot(
-  ggplot(data = adsl_ggplot, aes_string(x = input$var)) + 
-    geom_histogram(aes(y = ..density..), colour = "blue", fill = "white") + 
-    geom_density(alpha = 0.2, fill = "green")
-  )
+#renderPlot(
+#  ggplot(data = ...*ANSWER*...*, aes_...*ANSWER*...(x = input$...*ANSWER*...)) + 
+#    geom_...*ANSWER*...(aes(y = ...*ANSWER*...), colour = "blue", fill = "white") + 
+#    geom_...*ANSWER*...(alpha = ...*ANSWER*..., fill = ...*ANSWER*...)
+#  )
 ```
 
 
@@ -172,10 +173,11 @@ renderPlot(
   + Create a __renderTable__ function: 
     * We will use the result of __selectInput__ to create a dynamic table
     * Inside the renderTable function, create a __summary__ function on __adsl_shiny[,input$var]__
+    
 ```{r}
-renderTable(
-  summary(adsl_shiny[,input$var])
-)
+#renderTable(
+#  ...*ANSWER*...(...*ANSWER*...[,input$var])
+#)
 ```
 
 *** Run the document and see if a plot has been added ***
@@ -184,28 +186,29 @@ renderTable(
 
 ####- Set up the dataset
   + Create __adsl_shiny_2__ from adsl_ggplot where you select __columns 2:7 and 11__
+  
 ```{r}
-adsl_shiny_2 <- adsl_ggplot %>% 
-  select(2:7,11)
+#adsl_shiny_2 <- ...*ANSWER*... %>% 
+#  select(...*ANSWER*...,11)
 ```
 
 ####- Set up the User Interface 
   + Create __selectInput__ function: 
     * "Yvar" as __inputId__
     * "Choose your Y variable" as __label__
-    * Names of all numeric variables as __choices__
+    * Names of all __numeric__ variables as __choices__
 ```{r}
-selectInput(inputId = "Yvar", label = "Choose your Y variable", 
-            choices = names(adsl_shiny_2 %>% select_if(is.numeric)))
+#selectInput(inputId = "...*ANSWER*...", label = "...*ANSWER*...", 
+#            choices = names(...*ANSWER*... %>% select_if(...*ANSWER*...)))
 ```
     
   + Create __selectInput__ function: 
     * "Xvar" as __inputId__
-    * "Choose your X variable" as label
-    * Names of all character variables as __choices__
+    * "Choose your X variable" as __label__
+    * Names of all __character__ variables as __choices__
 ```{r}
-selectInput(inputId = "Xvar", label = "Choose your X variable", 
-            choices = names(adsl_shiny_2 %>% select_if(is.character) ))
+# selectInput(inputId = "...*ANSWER*...", label = "...*ANSWER*...", 
+#             choices = ...*ANSWER*...(...*ANSWER*... %>% select_if(...*ANSWER*...) ))
 ```
  
 ####- Set up the Server function     
@@ -216,11 +219,11 @@ selectInput(inputId = "Xvar", label = "Choose your X variable",
     * Add a __geom_jitter__ with, width = 0.2, alpha = 0.3 and col = "red"
 
 ```{r}
-renderPlot(
-  ggplot(data = adsl_ggplot, aes_string(x = input$Xvar, y = input$Yvar)) + 
-    geom_boxplot()+ 
-    geom_jitter(width = 0.2, alpha = 0.3, col = "red")
-  )
+# renderPlot(
+#   ggplot(data = ...*ANSWER*..., aes_string(x = input$...*ANSWER*..., y = ...*ANSWER*...)) + 
+#     geom_...*ANSWER*...()+ 
+#     geom_...*ANSWER*...(width = ...*ANSWER*..., ...*ANSWER*... = 0.3, col = "red")
+#   )
 ```
 
 
@@ -235,7 +238,7 @@ renderPlot(
 
   + Load the library "broom"
 ```{r}
-library(broom)
+# library(...*ANSWER*...)
 ```
 
 
@@ -243,8 +246,8 @@ library(broom)
 
   + Create __adsl_shiny_2__ from adsl_ggplot where you select __columns 2:7 and 11__
 ```{r}
-adsl_shiny_2 <- adsl_ggplot %>% 
-  select(2:7,11)
+# adsl_shiny_2 <- ...*ANSWER*... %>% 
+#   ...*ANSWER*...(...*ANSWER*...)
 ```
 
 
@@ -255,8 +258,8 @@ adsl_shiny_2 <- adsl_ggplot %>%
     * "Choose your Y variable" as __label__
     * Names of all numeric variables as __choices__
 ```{r}
-selectInput(inputId = "Yvar_1", label = "Choose your Y variable", 
-            choices = names(adsl_shiny_2 %>% select_if(is.numeric)))
+# selectInput(...*ANSWER*... = "Yvar_1", ...*ANSWER*... = "...*ANSWER*...", 
+#             ...*ANSWER*... = names(...*ANSWER*... %>% ...*ANSWER*...(is.numeric)))
 ```
     
   + Create __selectInput__ function: 
@@ -264,8 +267,8 @@ selectInput(inputId = "Yvar_1", label = "Choose your Y variable",
     * "Choose your X variable" as __label__
     * Names of all numeric variables as __choices__
 ```{r}
-selectInput(inputId = "Xvar_1", label = "Choose your X variable", 
-            choices = names(adsl_shiny_2 %>% select_if(is.numeric)))
+# selectInput(...*ANSWER*... = "...*ANSWER*...", ...*ANSWER*... = "Choose your X variable", 
+#             ...*ANSWER*... = ...*ANSWER*...(...*ANSWER*... %>% select_if(...*ANSWER*...)))
 ```
     
   + Create __selectInput__ function: 
@@ -273,8 +276,8 @@ selectInput(inputId = "Xvar_1", label = "Choose your X variable",
     * "Choose your group variable" as __label__
     * Names of all character variables as __choices__
 ```{r}
-selectInput(inputId = "grp", label = "Choose your grouping variable", 
-            choices = names(adsl_shiny_2 %>% select_if(is.character)))
+# selectInput(inputId = "...*ANSWER*...", ...*ANSWER*... = "Choose your grouping variable", 
+#             ...*ANSWER*... = ...*ANSWER*...(...*ANSWER*... %>% ...*ANSWER*...(is.character)))
 
 ```
  
@@ -287,11 +290,11 @@ selectInput(inputId = "grp", label = "Choose your grouping variable",
     * add a __geom_point__
     * add a __geom_smooth__ with method = "lm"
 ```{r}
-renderPlot(
-  ggplot(data = adsl_ggplot, aes_string(x = input$Xvar_1, y = input$Yvar_1, col = input$grp)) + 
-    geom_point() + 
-    geom_smooth(method = "lm")
-  )
+# renderPlot(
+#   ...*ANSWER*...(data = ...*ANSWER*..., ...*ANSWER*...(x = input$...*ANSWER*..., y = ...*ANSWER*..., col = ...*ANSWER*...)) + 
+#     ...*ANSWER*...() + 
+#     ...*ANSWER*...(method = "lm")
+#   )
 ```
 
 
@@ -303,14 +306,15 @@ renderPlot(
     * Using dplyr and pipe function, create __lm_shiny__ from __adsl_shiny_2__ , grouped by the choosing __characters variable__ and then fill the blanks where we call the __lm__ of __mod__ and __data = .__
 
 ```{r}
-renderTable({
-  mod <- as.formula(paste(input$Yvar_1, "~", input$Xvar_1))
+# renderTable({
+#   mod <- as.formula(paste(input$...*ANSWER*..., "~", input$...*ANSWER*...))
 
-  lm_shiny <- adsl_shiny_2 %>% 
-  group_by_(input$grp) %>% 
-  do(tidy(lm(mod, data=.)))
-  lm_shiny
-})
+#   lm_shiny <- ...*ANSWER*... %>% 
+#     group_by_(input$...*ANSWER*...) %>% 
+#     do(tidy(lm(...*ANSWER*..., data=.)))
+
+#   lm_shiny
+#})
 
 ```
 
