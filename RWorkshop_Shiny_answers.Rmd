@@ -1,0 +1,316 @@
+---
+title: "RWorkShop_Shiny"
+runtime: shiny
+output: html_document
+---
+
+## Shiny Package
+
+Shiny allows us to bring interactivity to our application. It can be useful for graphs, simulations or to be honest, almost everything where you will need interactivity. 
+In Shiny there are two main function, UI (User interface) which is how the app will be displayed and the server which is the black box, where we create our functions. 
+
+```{r}
+# HK: If you add library( shiny ) here this becomes code that works
+      ui <- fluidPage(
+          
+          titlePanel("Hello Shiny!"),
+
+            sidebarPanel(
+
+              sliderInput(inputId = "bins",
+                          label = "Number of bins:",
+                          min = 1,
+                          max = 50,
+                          value = 30)   
+              ),
+
+            mainPanel(
+          
+              plotOutput(outputId = "distPlot")
+            )
+        
+      )
+      
+      
+      server <- function(input, output) {
+
+        output$distPlot <- renderPlot({
+
+            x    <- faithful$waiting
+            bins <- seq(min(x), max(x), length.out = input$bins + 1)
+
+              hist(x, breaks = bins, col = "#75AADB", border = "white",
+                   xlab = "Waiting time to next eruption (in mins)",
+                   main = "Histogram of waiting times")
+        })
+
+      }
+      
+shinyApp(ui, server)
+```    
+
+
+The fuidPage function, here is a basic layout of a shiny page and it's divided in three parts:
+
+* **titlePanel:** this is the title of the app... 
+* **sidebarPanel:** the left part of the page and generally of the inputs we want 
+* **mainPanel:** usually the ouputs destination
+
+There are many input functions to use (see cheatsheet), such as a *numerics*, *sliders*, *buttons* etc..
+
+             sliderInput(inputId = "bins",
+                          label = "Number of bins:",
+                          min = 1,
+                          max = 50,
+                          value = 30)
+            
+Once we have defined some inputs, we will define the differents outputs we want, *plots*, *tables*, *images*... We will attribute them an *ID*, which is working like a macro variable in SAS and from that, we will get the desired value of the inputs. Here it's *bins* which will return the numeric value from the *slider*.
+
+
+              plotOutput(outputId = "distPlot")
+              
+Then, we will create the differents outputs we would like to display on the page, these are defined with "Output" at the end of the function (*plotOuputs*, *tableOutput*.. see the Cheatsheet). Similar to the inputs, they will have an *ID* which works in pairs with the server function. In this example the ID is *distPlot*. We instruct the program to display a plot in the html page.
+
+The server function contains details on the calculations, this is where every calculations are running. In the above exemple, we define *output$distPlot <- renderPlot*. 
+
+               output$distPlot <- renderPlot({
+
+                    x    <- faithful$waiting
+                    bins <- seq(min(x), max(x), length.out = input$bins + 1)
+
+                    hist(x, breaks = bins, col = "#75AADB", border = "white",
+                         xlab = "Waiting time to next eruption (in mins)",
+                         main = "Histogram of waiting times")
+                })
+
+The *renderPlot* function in the server function is the counter part to the *plotOutput* function in the UI part. In the UI we are calling the *plotOutput* function and we attribute it a plot. calculation of the plot is described in the server function.
+Here it is a histogram created with the *hist()* function.
+
+_input$bins_ will return the numeric value from the UI sliderInput.
+
+
+The function seq creates a sequence vector of equidistant steps from the minimum to the maximum of the variable x (waiting time). The resulting vector has length input$bins + 1.
+The function hist creates a histogram of the variable x with breaks (cut-points for the bins) as per variable bins and each time we change the sliderInput, *bins* will change as the plot will. 
+
+**Now it's your shiny turn :)**
+
+*** 
+
+### Dataset
+
+  + Import the adsl dataset 
+  + Create __adsl1__ where you __select__ SUBJID, AGE, SEX, SMWDBL, WHOFCBL, HEIGHTBL, WEIGHTBL, TRTSDT, TRTEDT from adsl
+  + Create __adsl4__ where you define __TrtDuration__, the number of days between TRTEDT and TRTSDT and __BMIBL__, BMI of each subject at baseline from adsl1
+  + Create __adsl_ggplot__ where there is __any missing values__ in SMWDBL, BMIBL, SEX, WHOFCBL
+  
+```{r, message = F}
+library(tidyverse)
+library(shiny)
+library(haven)
+
+adsl <- read_sas("C:/Users/astos/Desktop/RWorkshop/adsl.sas7bdat")
+adsl1 <- select(adsl, SUBJID, AGE, SEX, SMWDBL, WHOFCBL, HEIGHTBL, WEIGHTBL, TRTSDT, TRTEDT)
+adsl4 <- mutate(adsl1, DaysBet = TRTEDT - TRTSDT, BMIBL = WEIGHTBL / (HEIGHTBL * HEIGHTBL * 10e-5))
+adsl_ggplot <- adsl4 %>% 
+  filter(!is.na(SMWDBL) & !is.na(BMIBL) & !is.na(SEX) & WHOFCBL != "")
+
+```
+
+names(adsl)
+### 1. Single quantitative variable
+
+####- Set up the dataset
+
+  + We will start with __adsl_ggplot__ dataset 
+  + Create __adsl_shiny__ where there are only numeric variables
+```{r}
+adsl_shiny <- adsl_ggplot %>% 
+  select_if(is.numeric)
+```
+
+  + Create an __histogram__ of __SMWDBL__ using __ggplot__ 
+```{r}
+ggplot(data = adsl_ggplot, aes(x = SMWDBL)) + 
+ geom_histogram()
+```
+
+####- Set up the user interface function as in the example above
+  + Create __selectInput__ function: 
+    * "var" as __inputId__
+    * "Choose your variable" as __label__
+    * Column names of adsl_shiny as __choices__
+    
+```{r}
+selectInput(inputId = "var", label = "Choose your variable", 
+            choices = names(adsl_shiny))
+```
+
+
+*** Run the document and see if a Selectinput has been created ***
+
+
+####- Set up the server function as in the example above
+
+  + Create a __renderPlot__ function: 
+    * Inside the renderPlot function, define a __ggplot__ function
+    * Use __adsl_ggplot__ as __data__
+    * Replace __aes__ by __aes_string__ and map x to __input$var__
+    * Add a __geom_histogram__, with colour = "blue", fill = "white" and y = ..density..
+    * Add a __geom_density__ with alpha = 0.2 and fill = "green"
+
+```{r}
+renderPlot(
+  ggplot(data = adsl_ggplot, aes_string(x = input$var)) + 
+    geom_histogram(aes(y = ..density..), colour = "blue", fill = "white") + 
+    geom_density(alpha = 0.2, fill = "green")
+  )
+```
+
+
+*** Run the document and see if a plot has been added ***
+
+  + Create a __renderTable__ function: 
+    * We will use the result of __selectInput__ to create a dynamic table
+    * Inside the renderTable function, create a __summary__ function on __adsl_shiny[,input$var]__
+```{r}
+renderTable(
+  summary(adsl_shiny[,input$var])
+)
+```
+
+*** Run the document and see if a plot has been added ***
+
+###2. Combination of Quantitatives and Qualitatives variables
+
+####- Set up the dataset
+  + Create __adsl_shiny_2__ from adsl_ggplot where you select __columns 2:7 and 11__
+```{r}
+adsl_shiny_2 <- adsl_ggplot %>% 
+  select(2:7,11)
+```
+
+####- Set up the User Interface 
+  + Create __selectInput__ function: 
+    * "Yvar" as __inputId__
+    * "Choose your Y variable" as __label__
+    * Names of all numeric variables as __choices__
+```{r}
+selectInput(inputId = "Yvar", label = "Choose your Y variable", 
+            choices = names(adsl_shiny_2 %>% select_if(is.numeric)))
+```
+    
+  + Create __selectInput__ function: 
+    * "Xvar" as __inputId__
+    * "Choose your X variable" as label
+    * Names of all character variables as __choices__
+```{r}
+selectInput(inputId = "Xvar", label = "Choose your X variable", 
+            choices = names(adsl_shiny_2 %>% select_if(is.character) ))
+```
+ 
+####- Set up the Server function     
+  + Create a __renderPlot__ function: 
+    * Use adsl_ggplot as __data__
+    * Replace __aes__ by __aes_string__ and map x to __Xvar__ and y to __Yvar__
+    * Add a __geom_boxplot__
+    * Add a __geom_jitter__ with, width = 0.2, alpha = 0.3 and col = "red"
+
+```{r}
+renderPlot(
+  ggplot(data = adsl_ggplot, aes_string(x = input$Xvar, y = input$Yvar)) + 
+    geom_boxplot()+ 
+    geom_jitter(width = 0.2, alpha = 0.3, col = "red")
+  )
+```
+
+
+*** Run the document and see if a plot has been added ***
+
+
+###3. Combination of 2 Quantitatives and Qualitative variables
+
+
+
+####- Set up the library 
+
+  + Load the library "broom"
+```{r}
+library(broom)
+```
+
+
+####- Set up the dataset 
+
+  + Create __adsl_shiny_2__ from adsl_ggplot where you select __columns 2:7 and 11__
+```{r}
+adsl_shiny_2 <- adsl_ggplot %>% 
+  select(2:7,11)
+```
+
+
+####- Set up the User interface  
+
+  + Create __selectInput__ function: 
+    * "Yvar_1" as __inputId__
+    * "Choose your Y variable" as __label__
+    * Names of all numeric variables as __choices__
+```{r}
+selectInput(inputId = "Yvar_1", label = "Choose your Y variable", 
+            choices = names(adsl_shiny_2 %>% select_if(is.numeric)))
+```
+    
+  + Create __selectInput__ function: 
+    * "Xvar_1" as __inputId__
+    * "Choose your X variable" as __label__
+    * Names of all numeric variables as __choices__
+```{r}
+selectInput(inputId = "Xvar_1", label = "Choose your X variable", 
+            choices = names(adsl_shiny_2 %>% select_if(is.numeric)))
+```
+    
+  + Create __selectInput__ function: 
+    * "grp" as __inputId__
+    * "Choose your group variable" as __label__
+    * Names of all character variables as __choices__
+```{r}
+selectInput(inputId = "grp", label = "Choose your grouping variable", 
+            choices = names(adsl_shiny_2 %>% select_if(is.character)))
+
+```
+ 
+ 
+####- Set up the Server function   
+
+  + Create a __renderPlot__ function: 
+    * use adsl_ggplot as __data__
+    * replace __aes__ by __aes_string__ and map x to __Xvar_1__, y to __Yvar_1__ and col to __grp__
+    * add a __geom_point__
+    * add a __geom_smooth__ with method = "lm"
+```{r}
+renderPlot(
+  ggplot(data = adsl_ggplot, aes_string(x = input$Xvar_1, y = input$Yvar_1, col = input$grp)) + 
+    geom_point() + 
+    geom_smooth(method = "lm")
+  )
+```
+
+
+
+  + Create a __renderTable__ function:
+    * Here, we will create a dynamic table resuming the differents linear functions.
+    * Here is how we write a linear model using R: __lm(Y ~ X, data = ...)__ with Y the dependent variable and X the predictors
+    * First, assign __mod__ by filling in the following code __as.formula(paste(..., "~", ...))__ according to the previous graph and the different inputs from the user interface. __...__ are the dependent variable and the predictors 
+    * Using dplyr and pipe function, create __lm_shiny__ from __adsl_shiny_2__ , grouped by the choosing __characters variable__ and then fill the blanks where we call the __lm__ of __mod__ and __data = .__
+
+```{r}
+renderTable({
+  mod <- as.formula(paste(input$Yvar_1, "~", input$Xvar_1))
+
+  lm_shiny <- adsl_shiny_2 %>% 
+  group_by_(input$grp) %>% 
+  do(tidy(lm(mod, data=.)))
+  lm_shiny
+})
+
+```
+
