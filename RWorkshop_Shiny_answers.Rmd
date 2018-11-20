@@ -10,7 +10,7 @@ Shiny allows us to bring interactivity to our application. It can be useful for 
 In Shiny there are two main function, UI (User interface) which is how the app will be displayed and the server which is the black box, where we create our functions. 
 
 ```{r}
-# HK: If you add library( shiny ) here this becomes code that works
+library( shiny )
       ui <- fluidPage(
           
           titlePanel("Hello Shiny!"),
@@ -108,7 +108,7 @@ library(tidyverse)
 library(shiny)
 library(haven)
 
-adsl <- read_sas("C:/Users/astos/Desktop/RWorkshop/adsl.sas7bdat")
+adsl <- read_sas(".\\data\\adsl.sas7bdat")
 adsl1 <- select(adsl, SUBJID, AGE, SEX, SMWDBL, WHOFCBL, HEIGHTBL, WEIGHTBL, TRTSDT, TRTEDT)
 adsl4 <- mutate(adsl1, DaysBet = TRTEDT - TRTSDT, BMIBL = WEIGHTBL / (HEIGHTBL * HEIGHTBL * 10e-5))
 adsl_ggplot <- adsl4 %>% 
@@ -178,7 +178,7 @@ renderTable(
 )
 ```
 
-*** Run the document and see if a plot has been added ***
+*** Run the document and see if a table has been added ***
 
 ###2. Combination of Quantitatives and Qualitatives variables
 

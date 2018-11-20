@@ -45,11 +45,12 @@ that.
 # Resources
 
 Please make sure you have a copy of the following cheatsheets handy:
-+ Rstudio https://github.com/rstudio/cheatsheets/raw/master/rstudio-ide.pdf
-+ RMarkdown https://github.com/rstudio/cheatsheets/raw/master/rmarkdown-2.0.pdf
-+ dplyr https://github.com/rstudio/cheatsheets/raw/master/data-transformation.pdf
-+ ggplot https://github.com/rstudio/cheatsheets/raw/master/data-visualization-2.1.pdf
-+ shiny https://github.com/rstudio/cheatsheets/raw/master/shiny.pdf
+
+- Rstudio https://github.com/rstudio/cheatsheets/raw/master/rstudio-ide.pdf
+- RMarkdown https://github.com/rstudio/cheatsheets/raw/master/rmarkdown-2.0.pdf
+- dplyr https://github.com/rstudio/cheatsheets/raw/master/data-transformation.pdf
+- ggplot https://github.com/rstudio/cheatsheets/raw/master/data-visualization-2.1.pdf
+- shiny https://github.com/rstudio/cheatsheets/raw/master/shiny.pdf
  
 Additional cheatsheets can be found here: https://www.rstudio.com/resources/cheatsheets/
 
@@ -57,10 +58,11 @@ Additional cheatsheets can be found here: https://www.rstudio.com/resources/chea
 # RStudio
 
 There are 4 main windows:
-+ Code editor: Here you can edit R programs
-+ Environment window: This is like the work folder in SAS, a collection of data in memory
-+ Console window: Interactive code area - perfect for writing R code that you want evaluated immediately. What happens when you type `1+1`  and press Enter in this window?
-+ Files window: Windows explorer of files and folders
+
+- Code editor: Here you can edit R programs
+- Environment window: This is like the work folder in SAS, a collection of data in memory
+- Console window: Interactive code area - perfect for writing R code that you want evaluated immediately. What happens when you type `1+1`  and press Enter in this window?
+- Files window: Windows explorer of files and folders
 
 
 
@@ -98,10 +100,10 @@ help(package = "dplyr")
  
 # Packages
 
-+ Imagine if could download a bunch of macros bundled together
-+ People all over the world could write macros and share with everyone else
-+ Peer review would ensure the macros work as advertised
-+ Packages hosted on CRAN and must pass tests to be accepted
+- Imagine if could download a bunch of macros bundled together
+- People all over the world could write macros and share with everyone else
+- Peer review would ensure the macros work as advertised
+- Packages hosted on CRAN and must pass tests to be accepted
 
 
 Let's install our first package to read SAS datasets. 
@@ -110,7 +112,7 @@ install.packages specifies the name of the package we want to install.
 Library function loads the package into memory - Check the packages tab of RStudio to see packages that are loaded out of the installed.
 
 ```{r}
-install.packages("sas7bdat")
+#install.packages("sas7bdat")
 library(sas7bdat)
 ```
 
@@ -127,9 +129,9 @@ Gotcha 1: Our first gotcha: Backslashes in R have to be escaped, this means we h
 
 ```{r}
 
-#adsl <- read.sas7bdat(".\\data\\adsl.sas7bdat")
+adsl <- read.sas7bdat(".\\data\\adsl.sas7bdat")
 
-adsl <- read_sas("\\\\actelion.com\\POOL\\GLOBAL\\BIOSTATISTICS\\Clinical Projects\\ACT-064992_Macitentan\\ACT-064992_in_PAH_adult\\Regulatory Authorities\\FDC Maci and Tada\\US (FDA)\\OPUS_FDC\\ADaM_Data\\adsl.sas7bdat")
+#adsl <- read_sas("\\\\actelion.com\\POOL\\GLOBAL\\BIOSTATISTICS\\Clinical Projects\\ACT-064992_Macitentan\\ACT-064992_in_PAH_adult\\Regulatory Authorities\\FDC Maci and Tada\\US (FDA)\\OPUS_FDC\\ADaM_Data\\adsl.sas7bdat")
 ```
 
 The "<-" is an assignment operator. Assignments can also be done with "=", however convention dictates we use the former.
@@ -150,8 +152,8 @@ We can also read a host of other formats as follows
 
 # The dataframe object
 
-+ dataframes are the SAS equivelent of a dataset.
-+ Take a look at the adsl dataframe in the environment window
+- dataframes are the SAS equivelent of a dataset.
+- Take a look at the adsl dataframe in the environment window
 
 
 Inspecting the dataframe programmatically
@@ -284,12 +286,12 @@ From the answer above, we should be able to see a lot of `NaN`s. NaN stands for 
 
 + Structure of the dataset : "str function"
 ```{r}
-str(adsl1)
+#str(adsl1)
 ```
 
 We can also use column numbers in the select statement. Lets get the contents of the first column in adsl1
 ```{r}
-adsl1 %>% select(1)
+adsl1 %>% select(1) %>% head()
 ```
 
 

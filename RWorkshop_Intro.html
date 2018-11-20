@@ -155,12 +155,25 @@ $(document).ready(function () {
 </div>
 <div id="resources" class="section level1">
 <h1>Resources</h1>
-<p>Please make sure you have a copy of the following cheatsheets handy: + Rstudio <a href="https://github.com/rstudio/cheatsheets/raw/master/rstudio-ide.pdf" class="uri">https://github.com/rstudio/cheatsheets/raw/master/rstudio-ide.pdf</a> + RMarkdown <a href="https://github.com/rstudio/cheatsheets/raw/master/rmarkdown-2.0.pdf" class="uri">https://github.com/rstudio/cheatsheets/raw/master/rmarkdown-2.0.pdf</a> + dplyr <a href="https://github.com/rstudio/cheatsheets/raw/master/data-transformation.pdf" class="uri">https://github.com/rstudio/cheatsheets/raw/master/data-transformation.pdf</a> + ggplot <a href="https://github.com/rstudio/cheatsheets/raw/master/data-visualization-2.1.pdf" class="uri">https://github.com/rstudio/cheatsheets/raw/master/data-visualization-2.1.pdf</a> + shiny <a href="https://github.com/rstudio/cheatsheets/raw/master/shiny.pdf" class="uri">https://github.com/rstudio/cheatsheets/raw/master/shiny.pdf</a></p>
+<p>Please make sure you have a copy of the following cheatsheets handy:</p>
+<ul>
+<li>Rstudio <a href="https://github.com/rstudio/cheatsheets/raw/master/rstudio-ide.pdf" class="uri">https://github.com/rstudio/cheatsheets/raw/master/rstudio-ide.pdf</a></li>
+<li>RMarkdown <a href="https://github.com/rstudio/cheatsheets/raw/master/rmarkdown-2.0.pdf" class="uri">https://github.com/rstudio/cheatsheets/raw/master/rmarkdown-2.0.pdf</a></li>
+<li>dplyr <a href="https://github.com/rstudio/cheatsheets/raw/master/data-transformation.pdf" class="uri">https://github.com/rstudio/cheatsheets/raw/master/data-transformation.pdf</a></li>
+<li>ggplot <a href="https://github.com/rstudio/cheatsheets/raw/master/data-visualization-2.1.pdf" class="uri">https://github.com/rstudio/cheatsheets/raw/master/data-visualization-2.1.pdf</a></li>
+<li>shiny <a href="https://github.com/rstudio/cheatsheets/raw/master/shiny.pdf" class="uri">https://github.com/rstudio/cheatsheets/raw/master/shiny.pdf</a></li>
+</ul>
 <p>Additional cheatsheets can be found here: <a href="https://www.rstudio.com/resources/cheatsheets/" class="uri">https://www.rstudio.com/resources/cheatsheets/</a></p>
 </div>
 <div id="rstudio" class="section level1">
 <h1>RStudio</h1>
-<p>There are 4 main windows: + Code editor: Here you can edit R programs + Environment window: This is like the work folder in SAS, a collection of data in memory + Console window: Interactive code area - perfect for writing R code that you want evaluated immediately. What happens when you submit <code>1+1</code> in this window? + Files window: Windows explorer of files and folders</p>
+<p>There are 4 main windows:</p>
+<ul>
+<li>Code editor: Here you can edit R programs</li>
+<li>Environment window: This is like the work folder in SAS, a collection of data in memory</li>
+<li>Console window: Interactive code area - perfect for writing R code that you want evaluated immediately. What happens when you type <code>1+1</code> and press Enter in this window?</li>
+<li>Files window: Windows explorer of files and folders</li>
+</ul>
 </div>
 <div id="markdown-file" class="section level1">
 <h1>Markdown file</h1>
@@ -194,13 +207,10 @@ library(sas7bdat)</code></pre>
 <div id="read-in-sas-dataset" class="section level2">
 <h2>Read in SAS dataset</h2>
 <p>We will read the ADSL dataset from the OPUS registry.</p>
-<p>Gotcha 1: Our first gotcha: Backslashes in R have to be escaped, this means we have to add extra backslash for every backslash to out path. Alternatively, use forward slashes.</p>
-<pre class="r"><code>#\\actelion.com\POOL\GLOBAL\BIOSTATISTICS\Clinical Projects\ACT-064992_Macitentan\ACT-064992_in_PAH_adult\Regulatory Authorities\FDC Maci and Tada\US (FDA)\OPUS_FDC\ADaM_Data
+<p>Gotcha 1: Our first gotcha: Backslashes in R have to be escaped, this means we have to add extra backslash for every backslash to our path. Alternatively, use forward slashes.</p>
+<pre class="r"><code>adsl &lt;- read.sas7bdat(&quot;.\\data\\adsl.sas7bdat&quot;)
 
-
-#adsl &lt;- read.sas7bdat(&quot;\\\\actelion.com\\POOL\\GLOBAL\\BIOSTATISTICS\\Clinical Projects\\ACT-064992_Macitentan\\ACT-064992_in_PAH_adult\\Regulatory Authorities\\FDC Maci and Tada\\US (FDA)\\OPUS_FDC\\ADaM_Data\\adsl.sas7bdat&quot;)
-
-adsl &lt;- read.sas7bdat(&quot;.\\data\\adsl.sas7bdat&quot;)</code></pre>
+#adsl &lt;- read_sas(&quot;\\\\actelion.com\\POOL\\GLOBAL\\BIOSTATISTICS\\Clinical Projects\\ACT-064992_Macitentan\\ACT-064992_in_PAH_adult\\Regulatory Authorities\\FDC Maci and Tada\\US (FDA)\\OPUS_FDC\\ADaM_Data\\adsl.sas7bdat&quot;)</code></pre>
 <p>The “&lt;-” is an assignment operator. Assignments can also be done with “=”, however convention dictates we use the former.</p>
 <p>Tip: Use best practices by following the Tidyverse style guide: <a href="https://style.tidyverse.org/" class="uri">https://style.tidyverse.org/</a></p>
 <p>We can also read a host of other formats as follows</p>
@@ -238,13 +248,40 @@ adsl &lt;- read.sas7bdat(&quot;.\\data\\adsl.sas7bdat&quot;)</code></pre>
 <li>dataframes are the SAS equivelent of a dataset.</li>
 <li>Take a look at the adsl dataframe in the environment window</li>
 </ul>
-<p>Inspecting the dataframe programmatically + Number of rows : “nrow function” + Number of columns : “ncol function”</p>
-<p>Number of columns</p>
+<p>Inspecting the dataframe programmatically + Number of rows : “nrow function”</p>
 <pre class="r"><code>ncol(adsl)</code></pre>
 <pre><code>## [1] 132</code></pre>
-<p>Number of rows</p>
+<ul>
+<li>Number of columns : “ncol function”</li>
+</ul>
 <pre class="r"><code>nrow(adsl)</code></pre>
 <pre><code>## [1] 1827</code></pre>
+<ul>
+<li>Names of the dataset : “names function”</li>
+</ul>
+<pre class="r"><code>names(adsl)</code></pre>
+<pre><code>##   [1] &quot;STUDYID&quot;  &quot;USUBJID&quot;  &quot;SUBJID&quot;   &quot;SITEID&quot;   &quot;AGE&quot;      &quot;AGEU&quot;    
+##   [7] &quot;AAGE1&quot;    &quot;AAGEGR1&quot;  &quot;AAGEGR1N&quot; &quot;AAGE2&quot;    &quot;AAGEGR2&quot;  &quot;AAGEGR2N&quot;
+##  [13] &quot;SEX&quot;      &quot;SEXN&quot;     &quot;BRTHDTC&quot;  &quot;RACE&quot;     &quot;ITTFL&quot;    &quot;FUPFL&quot;   
+##  [19] &quot;ENRLFL&quot;   &quot;ENRLDT&quot;   &quot;ARM&quot;      &quot;ACTARM&quot;   &quot;TRT01P&quot;   &quot;TRT01PN&quot; 
+##  [25] &quot;TRTSDT&quot;   &quot;TRTSDTF&quot;  &quot;TRTEDT&quot;   &quot;TRTEDTF&quot;  &quot;OEXPRSDT&quot; &quot;OEXPREDT&quot;
+##  [31] &quot;EXPRSDT&quot;  &quot;EXPREDT&quot;  &quot;OPSMONFL&quot; &quot;COMBTHFL&quot; &quot;COHORT&quot;   &quot;COHORTN&quot; 
+##  [37] &quot;OPSMO7FL&quot; &quot;COMTH7FL&quot; &quot;OPSMO8FL&quot; &quot;COMTH8FL&quot; &quot;COMOTAFL&quot; &quot;COMOSIFL&quot;
+##  [43] &quot;DTHDT&quot;    &quot;ADTHDT&quot;   &quot;DTHDTF&quot;   &quot;DTHFL&quot;    &quot;ADTHDTF&quot;  &quot;ADTHFL&quot;  
+##  [49] &quot;DTHPAHFL&quot; &quot;DTH30FL&quot;  &quot;DTHOPFL&quot;  &quot;DTHPOPFL&quot; &quot;DTHOBFL&quot;  &quot;DTHPOBFL&quot;
+##  [55] &quot;DCSREAS&quot;  &quot;LSTINDT&quot;  &quot;CUTDT&quot;    &quot;EXPDURO&quot;  &quot;EXPDURE&quot;  &quot;PROPSDT&quot; 
+##  [61] &quot;PROPSDTF&quot; &quot;PROBSDT&quot;  &quot;PROBSDTF&quot; &quot;IPOPSDT&quot;  &quot;IPOPSDTF&quot; &quot;IPOBSDT&quot; 
+##  [67] &quot;IPOBSDTF&quot; &quot;PDEOPDT&quot;  &quot;PDEOPDTF&quot; &quot;PDEOBDT&quot;  &quot;PDEOBDTF&quot; &quot;SGCSDT&quot;  
+##  [73] &quot;SGCSDTF&quot;  &quot;SFRESDT&quot;  &quot;SFRESDTF&quot; &quot;SFROSDT&quot;  &quot;SFROSDTF&quot; &quot;BMIBL&quot;   
+##  [79] &quot;HEIGHTBL&quot; &quot;WEIGHTBL&quot; &quot;HRBL&quot;     &quot;SYSBPBL&quot;  &quot;DIABPBL&quot;  &quot;WHOFCBL&quot; 
+##  [85] &quot;SMWDBL&quot;   &quot;TLCPPBL&quot;  &quot;DLCOPPBL&quot; &quot;FEV1PPBL&quot; &quot;FVCPPBL&quot;  &quot;MPAPBL&quot;  
+##  [91] &quot;MRAPBL&quot;   &quot;MRAP1YFL&quot; &quot;MPCWPBL&quot;  &quot;PVRBL&quot;    &quot;BNPBL&quot;    &quot;NTPBNPBL&quot;
+##  [97] &quot;RHCBLFL&quot;  &quot;REFBLFL&quot;  &quot;WHOGR1BL&quot; &quot;CIBL&quot;     &quot;RRS&quot;      &quot;PAHIDURM&quot;
+## [103] &quot;PAHODURM&quot; &quot;PREINCO&quot;  &quot;PREINCON&quot; &quot;PREINCI&quot;  &quot;PREINCIN&quot; &quot;WHOFCFL&quot; 
+## [109] &quot;EXPSEVFL&quot; &quot;WHOFCID&quot;  &quot;WHOFCIDN&quot; &quot;PAHETY&quot;   &quot;PAHETYN&quot;  &quot;PRERAIFL&quot;
+## [115] &quot;PRPDE5FL&quot; &quot;PRPROFL&quot;  &quot;PDE5DT&quot;   &quot;PDE5DTF&quot;  &quot;PDE5DUR&quot;  &quot;PDE5EDT&quot; 
+## [121] &quot;PDE5EDTF&quot; &quot;PDE5EDUR&quot; &quot;OXYENRFL&quot; &quot;DURENRFL&quot; &quot;CCBENRFL&quot; &quot;DMENRFL&quot; 
+## [127] &quot;HTENRFL&quot;  &quot;RIENRFL&quot;  &quot;AIENRFL&quot;  &quot;ANENRFL&quot;  &quot;EDENRFL&quot;  &quot;OHFENRFL&quot;</code></pre>
 <div id="introducing-the-pipe-operator" class="section level2">
 <h2>Introducing the pipe operator</h2>
 <p>“%&gt;%” is the pipe operator. Similar to “|” in unix. Basically it means you don’t have to pass the name of the previous dataset between operations.</p>
@@ -268,12 +305,12 @@ proc print;
 <pre><code>## The following objects are masked from 'package:base':
 ## 
 ##     intersect, setdiff, setequal, union</code></pre>
-<pre class="r"><code>adsl1 &lt;- 
+<pre class="r"><code>adsl_fr &lt;- 
   adsl %&gt;%
   filter(COHORT != &quot;&quot; &amp; ITTFL == &quot;Y&quot;)
 
 #implicit first argument passed via pipe operator
-adsl1 &lt;- filter(adsl, COHORT != &quot;&quot; &amp; ITTFL == &quot;Y&quot;)</code></pre>
+adsl_fr &lt;- filter(adsl, COHORT != &quot;&quot; &amp; ITTFL == &quot;Y&quot;)</code></pre>
 <p>Gotcha 2: R is case sensitive, variables are case sensitive.</p>
 </div>
 <div id="equality-operators-in-r" class="section level2">
@@ -328,7 +365,6 @@ adsl1 &lt;- filter(adsl, COHORT != &quot;&quot; &amp; ITTFL == &quot;Y&quot;)</c
 <div id="warmup-2" class="section level3">
 <h3>Warmup 2:</h3>
 <p>How many rows were deleted from ADSL using the filter criteria above? Hint: use nrow and ncol functions</p>
-<pre class="r"><code>#nrow(adsl)-nrow(adsl1)</code></pre>
 </div>
 </div>
 </div>
@@ -347,62 +383,77 @@ adsl1 &lt;- filter(adsl, COHORT != &quot;&quot; &amp; ITTFL == &quot;Y&quot;)</c
 <li>select() Function The first argument to the select function is the dataframe, the remaining arguments are the names of the variables to keep.</li>
 </ol>
 <ul>
-<li>Create a new dataframe called <code>adls1</code> from <code>adsl</code> that contains: SUBJID, AGE, SEX, SMWDBL, WHOFCBL, HEIGHTBL, WEIGHTBL, TRTSDT and TRTEDT</li>
-<li>Use the head function to print a small subset of <code>adsl1</code>. HINT: Use the help function we saw previously to see how to use <code>head</code>.</li>
+<li><p>Create a new dataframe called <code>adsl1</code> from <code>adsl</code> that contains: SUBJID, AGE, SEX, SMWDBL, WHOFCBL, HEIGHTBL, WEIGHTBL, TRTSDT and TRTEDT</p></li>
+<li><p>Use the head function to print a small subset of <code>adsl1</code>. HINT: Use the help function we saw previously to see how to use <code>head</code>.</p></li>
 </ul>
-<pre class="r"><code>#adsl1 &lt;- select(adsl, SUBJID, AGE, SEX, SMWDBL, WHOFCBL, HEIGHTBL, WEIGHTBL, TRTSDT, TRTEDT)
-#head(adsl1)</code></pre>
-<p>From the answer above, we should be able to see a lot of <code>NaN</code>s. NaN stands for ‘Not a Number’, a special type of missing number. Many R functions can remove these during calculations using the argument <code>na.rm=TRUE</code></p>
+<p>From the answer above, we should be able to see a lot of <code>NaN</code>s. NaN stands for ‘Not a Number’, a special type of missing number. You may see this as <code>NAs</code> depending on which package you used to read the data. Many R functions can remove NAs/NaNs during calculations using the argument <code>na.rm=TRUE</code></p>
+<ul>
+<li>Structure of the dataset : “str function”</li>
+</ul>
+<pre class="r"><code>#str(adsl1)</code></pre>
+<p>We can also use column numbers in the select statement. Lets get the contents of the first column in adsl1</p>
+<pre class="r"><code>#adsl1 %&gt;% select(1)</code></pre>
+<p>Sometimes we may want to select only numeric variables or only character variables. We can use the combination of the select_if function and the <code>is.numeric</code> or <code>is.caracter property</code>. Note: The date variables have not been selected here as dates is a separate datatype in R.</p>
+<pre class="r"><code>#cont_vars &lt;- adsl1 %&gt;% select_if(is.numeric)</code></pre>
+<ul>
+<li>Create the dataframe cat_vars that contain the character variables in adsl1</li>
+</ul>
 <ol start="2" style="list-style-type: decimal">
 <li>mutate() Function</li>
 </ol>
 <p>The <code>mutate</code> function makes it easy to add or modify the columns of a <code>data.frame</code>.</p>
 <ul>
 <li>Create a new data frame called adsl2, which is adsl1 and an additional column: TrtDuration, the number of days between TRTEDT and TRTSDT.</li>
-<li>Create a new data frame called adsl3, which is adsl2 and an additionnal column BMIBL, BMI of each subject at baseline.</li>
-<li>Create adsl4, which combines the previous two steps into one mutate function call.</li>
 </ul>
-<pre class="r"><code>#adsl2 &lt;- mutate(adsl1, TrtDuration = TRTEDT - TRTSDT + 1)
-
-#adsl3 &lt;- mutate(adsl2, BMIBL = WEIGHTBL / (HEIGHTBL * HEIGHTBL * 10e-5))
-
-#adsl4 &lt;- mutate(adsl1, TrtDuration = TRTEDT - TRTSDT + 1, BMIBL = WEIGHTBL / (HEIGHTBL * HEIGHTBL * 10e-5))</code></pre>
+<pre class="r"><code>#adsl2 &lt;- mutate(adsl1, TrtDuration = TRTEDT - TRTSDT + 1)</code></pre>
+<ul>
+<li><p>Create a new data frame called adsl3, which is adsl2 and an additionnal column BMIBL, BMI of each subject at baseline.</p></li>
+<li><p>Create adsl4, which combines the previous two steps into one mutate function call.</p></li>
+</ul>
 <ol start="3" style="list-style-type: decimal">
 <li>filter() Function</li>
 </ol>
 <p>Filter is the equivalent of using a where statement. Create new dataframes with the following filter criteria.</p>
 <ul>
 <li>Create adsl5 from adsl4, where BMIBL is between 25 and 50 inclusive</li>
-<li>Create adsl6 from adsl4, where WHOFCBL is not Class III and Gender is male</li>
-<li>Create adsl7 from adsl4, where (AGE is greater 30 and male) or (AGE is less than 50 and female).</li>
 </ul>
-<pre class="r"><code>#adsl5 &lt;- filter(adsl4, BMIBL &gt;= 25 &amp; AGE &lt;= 50)
-
-#adsl6 &lt;- filter(adsl4, WHOFCBL != &quot;CLASS III&quot; &amp; SEX == &quot;M&quot;)
-
-#adsl7 &lt;- filter(adsl4, AGE &gt; 30 &amp; SEX == &quot;M&quot; | AGE &lt; 50 &amp; SEX == &quot;F&quot;)</code></pre>
+<pre class="r"><code>#adsl5 &lt;- filter(adsl4, BMIBL &gt;= 25 &amp; BMIBL  &lt;= 50)</code></pre>
+<ul>
+<li><p>Create adsl6 from adsl4, where WHOFCBL is not Class III and Gender is male</p></li>
+<li><p>Create adsl7 from adsl4, where (AGE is greater 30 and male) or (AGE is less than 50 and female).</p></li>
+</ul>
 <ol start="4" style="list-style-type: decimal">
 <li>arrange() Function</li>
 </ol>
 <p>Arrange allows you to sort the dataframe.</p>
 <ul>
 <li>Create adsl8 from adsl4, order by AGE</li>
+</ul>
+<pre class="r"><code>#adsl8 &lt;- arrange(adsl4, AGE)</code></pre>
+<ul>
 <li>Create adsl9 from adsl4, order by ascending SEX and descending AGE</li>
 </ul>
-<pre class="r"><code>#adsl8 &lt;- arrange(adsl4, AGE)
-
-#adsl9 &lt;- arrange(adsl4, SEX, desc(AGE))</code></pre>
 <ol start="5" style="list-style-type: decimal">
+<li>Summary function</li>
+</ol>
+<p>The summary function can be used to summarize the entire dataframe, a selection of variables, or as we will see later, summarize the contents of objects.</p>
+<pre class="r"><code>#summary(adsl1)</code></pre>
+<p>Variables can be referenced individually from the dataframe using the $ notation. So to select the age we can refer to <code>adsl$age</code></p>
+<ul>
+<li>Summarize the variable SMWDBL</li>
+</ul>
+<ol start="6" style="list-style-type: decimal">
 <li>summarize() Function</li>
 </ol>
-<p>Summarize allows you to create summary statistics. Look at the dplyr cheatsheet to see how it is used</p>
+<p>Summarize allows you to create summary statistics with more granularity. Look at the dplyr cheatsheet to see how it is used</p>
 <ul>
 <li>Create adsl10 from adsl4, which return the minimum of AGE, called “min”</li>
+</ul>
+<pre class="r"><code>#adsl10 &lt;- summarize(adsl4, min = min(AGE, na.rm = T))</code></pre>
+<ul>
 <li>Create adsl11 from adsl4, which return the minimum, maximum, mean and standard deviation of AGE called “min”, “max”, “mean”, “sd”.</li>
 </ul>
-<pre class="r"><code>#adsl10 &lt;- summarize(adsl4, min = min(AGE, na.rm = T))
-#adsl11 &lt;- summarize(adsl4, min=min(AGE, na.rm = T) , average= mean(AGE, na.rm = T), max= max(AGE, na.rm = T), sd= sd(AGE, na.rm = T))</code></pre>
-<ol start="6" style="list-style-type: decimal">
+<ol start="7" style="list-style-type: decimal">
 <li>Pipe operator</li>
 </ol>
 <p>Let’s look at pulling a lot of what we have learnt in the previous steps into a single statement using the pipe operator.</p>
@@ -415,20 +466,17 @@ adsl1 &lt;- filter(adsl, COHORT != &quot;&quot; &amp; ITTFL == &quot;Y&quot;)</c
 <li>Arrange: SEX and descending AGE</li>
 </ul></li>
 </ul>
-<pre class="r"><code>#adsl12 &lt;- adsl %&gt;% 
-  #select(SUBJID, AGE, SEX, SMWDBL, WHOFCBL, HEIGHTBL, WEIGHTBL, TRTSDT, TRTEDT) %&gt;% 
-  #mutate(BMIBL = WEIGHTBL / (HEIGHTBL * HEIGHTBL * 10e-5)) %&gt;% 
-  #filter(WHOFCBL != &quot;&quot;) %&gt;% 
-  #arrange(SEX, desc(AGE))</code></pre>
-<ol start="7" style="list-style-type: decimal">
+<pre class="r"><code># adsl12 &lt;- adsl %&gt;% 
+#   select(SUBJID, AGE, SEX, SMWDBL, WHOFCBL, HEIGHTBL, WEIGHTBL, TRTSDT, TRTEDT) %&gt;% 
+#   mutate(BMIBL = WEIGHTBL / (HEIGHTBL * HEIGHTBL * 10e-5)) %&gt;% 
+#   filter(WHOFCBL != &quot;&quot;) %&gt;% 
+#   arrange(SEX, desc(AGE))</code></pre>
+<ol start="8" style="list-style-type: decimal">
 <li>Group_by:</li>
 </ol>
 <ul>
 <li>Create adsl13, from adsl12 where we summarize SMWDBL by WHOFCBL</li>
 </ul>
-<pre class="r"><code>#adsl13 &lt;- adsl12 %&gt;% 
-  #group_by(WHOFCBL) %&gt;% 
-  #summarize(min= min(SMWDBL, na.rm = T), average= mean(SMWDBL, na.rm = T), max= max(SMWDBL, na.rm = T), sd= sd(SMWDBL, na.rm = T))</code></pre>
 </div>
 <div id="ggplot-package" class="section level1">
 <h1>GGPLOT Package</h1>
@@ -440,90 +488,55 @@ adsl1 &lt;- filter(adsl, COHORT != &quot;&quot; &amp; ITTFL == &quot;Y&quot;)</c
 <ol style="list-style-type: decimal">
 <li>Part 1 - Introduction</li>
 </ol>
+<pre class="r"><code>library(ggplot2)</code></pre>
 <ul>
 <li>Create adsl_ggplot, where BMIBL, SMWDBL, SEX, WHOFCBL don’t have missing value</li>
-<li>Use geom_point() to adsl_ggplot with SMWDBL as y and BMIBL as x</li>
-<li>Use geom_point() to adsl_ggplot with SMWDBL as y and BMIBL as x and SEX as color</li>
-<li>Add geom_smooth to the previous code</li>
-<li>Add facet_grid (.~ WHOFCBL) to the previous code</li>
 </ul>
-<pre class="r"><code>#adsl_ggplot &lt;- adsl4 %&gt;% 
-#  filter(!is.na(SMWDBL) &amp; !is.na(BMIBL) &amp; !is.na(SEX) &amp; WHOFCBL != &quot;&quot;)
-
-
-#ggplot(data = adsl_ggplot, aes(x = BMIBL, y = SMWDBL)) + 
-#  geom_point()
-
-#ggplot(data = adsl_ggplot, aes(x = BMIBL, y = SMWDBL, col = SEX)) + 
-#  geom_point()
-
-#ggplot(data = adsl_ggplot, aes(x = BMIBL, y = SMWDBL, col = SEX)) + 
-#  geom_point() +
-#  geom_smooth()
-
-#ggplot(data = adsl_ggplot, aes(x = BMIBL, y = SMWDBL, col = SEX)) + 
-#  geom_point() +
-#  geom_smooth() + 
-#  facet_grid(WHOFCBL ~.)</code></pre>
+<pre class="r"><code># adsl_ggplot &lt;- adsl4 %&gt;% 
+#   filter(!is.na(SMWDBL) &amp; !is.na(BMIBL) &amp; !is.na(SEX) &amp; WHOFCBL != &quot;&quot;)</code></pre>
+<ul>
+<li><p>Use geom_point() to adsl_ggplot with SMWDBL as y and BMIBL as x</p></li>
+<li><p>Use geom_point() to adsl_ggplot with SMWDBL as y and BMIBL as x and SEX as color</p></li>
+<li><p>Add geom_smooth to the previous code Geom_smooth adds a regression line to the plot, and unless otherwise specified, you get the model y~x using loess (locally estimated scatterplot smoothing).</p></li>
+<li><p>Add facet_grid (.~ WHOFCBL) to the previous code</p></li>
+</ul>
 <ol start="2" style="list-style-type: decimal">
 <li>Part 2 - Aesthetics</li>
 </ol>
 <ul>
 <li>We will keep adsl_ggplot as a dataset</li>
-<li>Use geom_point() where alpha = 0.5 to adsl_ggplot with SMWDBL as y and BMIBL as x, AGE as color</li>
-<li>Add facet_grid (.~ WHOFCBL)</li>
-<li>Add SEX as shape in the ggplot aesthetic</li>
-<li>Add SEX as fill aesthetic and geom_smooth where method = “lm”</li>
+<li><p>Use geom_point() where alpha = 0.5 to adsl_ggplot with SMWDBL as y and BMIBL as x, AGE as color. Here the alpha parameter controls transparency. Why not try a few values?</p></li>
+<li><p>Add facet_grid (.~ WHOFCBL)</p></li>
+<li><p>Add SEX as shape in the ggplot aesthetic</p></li>
+<li><p>Add SEX as fill aesthetic and geom_smooth where method = “lm”. Now we are using a linear regression instead of loess</p></li>
+</ul>
+<pre class="r"><code># ggplot(data = adsl_ggplot, aes(x = BMIBL, y = SMWDBL, fill = SEX, col = AGE, shape = SEX)) + 
+#   geom_point(alpha = 0.5) + 
+#   facet_grid(WHOFCBL ~.) + 
+#   geom_smooth(method = &quot;lm&quot;)</code></pre>
+<ul>
 <li>All SUBJID as label in in the ggplot aesthetic and add geom_text whith size = 3</li>
 </ul>
-<pre class="r"><code>#ggplot(data = adsl_ggplot, aes(x = BMIBL, y = SMWDBL, col = AGE)) + 
-#  geom_point()
-
-#ggplot(data = adsl_ggplot, aes(x = BMIBL, y = SMWDBL, col = AGE)) + 
-#  geom_point() + 
-#  facet_grid(WHOFCBL ~.)
-
-#ggplot(data = adsl_ggplot, aes(x = BMIBL, y = SMWDBL, col = AGE, shape = SEX)) + 
-#  geom_point() + 
-#  facet_grid(WHOFCBL ~.)
-
-#ggplot(data = adsl_ggplot, aes(x = BMIBL, y = SMWDBL, fill = SEX, col = AGE, shape = SEX, label= SUBJID)) + 
-#  geom_point(alpha = 0.5) + 
-#  facet_grid(WHOFCBL ~.) + 
-#  geom_smooth(method = &quot;lm&quot;) + 
-#  geom_text(size = 3)</code></pre>
 <ol start="3" style="list-style-type: decimal">
 <li>Part 3 - Geom</li>
 </ol>
 <ul>
 <li>We will keep adsl_ggplot as a dataset</li>
 <li>Now, use WHOFCBL as x and y = SMWDBL and geom_point</li>
-<li>replace geom_point() by geom_jitter and then set width to 0.2 and alpha to 0.3 and shape to 1</li>
-<li>Now drop the y aes and replace WHOFCBL by SMWDBL from ggplot and replace completely by geom_histogram</li>
-<li>Create y = ..density.. to the aes from geom_histogram and set fill to WHOFCBL, outside aes set alpha to 0.6</li>
-<li>Define a ne ggplot, map with WHOFCBL as x and fill as SEX and add geom_bar()</li>
-<li>Inside geom_bar() add position = “stack” then change to “fill” and then to “dodge”</li>
 </ul>
-<pre class="r"><code>#ggplot(data = adsl_ggplot, aes(x = WHOFCBL, y = SMWDBL)) + 
-#  geom_point()
-
-#ggplot(data = adsl_ggplot, aes(x = WHOFCBL, y = SMWDBL)) + 
-#  geom_jitter(width = 0.2, alpha = 0.3, shape = 1) 
-
-#ggplot(data = adsl_ggplot, aes(x = SMWDBL)) + 
-#  geom_histogram() 
-
-#ggplot(data = adsl_ggplot, aes(x = SMWDBL)) + 
-#  geom_histogram(aes(y = ..density.., fill = WHOFCBL), alpha = 0.6)
-
-#ggplot(data = adsl_ggplot, aes(x = WHOFCBL, fill = SEX)) + 
-#  geom_bar()
-
-#ggplot(data = adsl_ggplot, aes(x = WHOFCBL, fill = SEX)) + 
-#  geom_bar(position = &quot;dodge&quot;)
-
-#ggplot(data = adsl_ggplot, aes(x = WHOFCBL, fill = SEX)) + 
-#  geom_bar(position = &quot;dodge&quot;)</code></pre>
+<pre class="r"><code># ggplot(data = adsl_ggplot, aes(x = WHOFCBL, y = SMWDBL)) + 
+#   geom_point()</code></pre>
+<ul>
+<li><p>replace geom_point() by geom_jitter and then set width to 0.2 and alpha to 0.3 and shape to 1</p></li>
+<li><p>Now drop the y aes and replace WHOFCBL by SMWDBL from ggplot and replace completely by geom_histogram</p></li>
+</ul>
+<pre class="r"><code># ggplot(data = adsl_ggplot, aes(x = SMWDBL)) + 
+#   geom_histogram() </code></pre>
+<ul>
+<li><p>Create y = ..density.. to the aes from geom_histogram and set fill to WHOFCBL, outside aes set alpha to 0.6</p></li>
+<li><p>Define a new ggplot, map with WHOFCBL as x and fill as SEX and add geom_bar()</p></li>
+<li><p>Inside geom_bar() add position = “stack” then change to “fill” and then to “dodge”</p></li>
+</ul>
 </div>
 <div id="optional-from-here-on" class="section level1">
 <h1>Optional from here on</h1>
@@ -531,27 +544,27 @@ adsl1 &lt;- filter(adsl, COHORT != &quot;&quot; &amp; ITTFL == &quot;Y&quot;)</c
 <h2>Data structures</h2>
 <p>There are two basic data structures in R: <em>vectors</em> and <em>lists</em>.</p>
 <p>Vectors are of a particular <em>type</em>, e.g., <em>integer</em>, <em>double</em>, or <em>character</em>. Vectors can be created using the <code>c</code> function, like this:</p>
-<pre class="r"><code>x &lt;- c(1, 2, 3) # numeric vector
-x</code></pre>
-<pre><code>## [1] 1 2 3</code></pre>
-<pre class="r"><code>y &lt;- c(&quot;1&quot;, &quot;2&quot;, &quot;3&quot;) # character vector
-y</code></pre>
-<pre><code>## [1] &quot;1&quot; &quot;2&quot; &quot;3&quot;</code></pre>
+<pre class="r"><code># x &lt;- c(1, 2, 3) # numeric vector
+# x</code></pre>
+<pre class="r"><code># y &lt;- c(&quot;1&quot;, &quot;2&quot;, &quot;3&quot;) # character vector
+# y</code></pre>
+<p>Individual elements can be retreived by indexing</p>
+<pre class="r"><code># y[2] #Returns second element of list</code></pre>
 <p>Lists are not restricted to a single type and can be used to hold just about anything. They can be created using the <code>list</code> function, like this:</p>
-<pre class="r"><code>z &lt;- list(1, c(1, 2, 3, 4), list(c(1, 2), c(&quot;a&quot;, &quot;b&quot;)))
-z</code></pre>
-<pre><code>## [[1]]
-## [1] 1
-## 
-## [[2]]
-## [1] 1 2 3 4
-## 
-## [[3]]
-## [[3]][[1]]
-## [1] 1 2
-## 
-## [[3]][[2]]
-## [1] &quot;a&quot; &quot;b&quot;</code></pre>
+<pre class="r"><code># z &lt;- list(1, c(1, 2, 3, 4), list(c(1, 2), c(&quot;a&quot;, &quot;b&quot;)))
+# z</code></pre>
+<p>Individual elements can be retreived by indexing similar to vectors</p>
+<pre class="r"><code># z[1]</code></pre>
+<p>For nested vectors or lists, we can index sublists and subvectors by nesting square brackets</p>
+<pre class="r"><code># y=c(c(1,2,3))
+# y[[1]]</code></pre>
+</div>
+<div id="creating-a-sequence" class="section level2">
+<h2>Creating a sequence</h2>
+<p>The sequence function creates a sequence from a value to a value. An example, to create an integer vector of integers between 1 to 10</p>
+<pre class="r"><code>#seq(1,10)</code></pre>
+<p>We can accomplish the same goal as above by using the colon operator.</p>
+<pre class="r"><code>#1:10</code></pre>
 </div>
 </div>
 
